@@ -18,6 +18,9 @@ import { Route as AdminDashboardRouteImport } from './routes/admin/dashboard'
 import { Route as AdminLoginRouteImport } from './routes/admin/login'
 import { Route as WorkIndexRouteImport } from './routes/work/index'
 import { Route as WorkSlugRouteImport } from './routes/work/$slug'
+import { Route as AdminProjectsIndexRouteImport } from './routes/admin/projects/index'
+import { Route as AdminProjectsIdRouteImport } from './routes/admin/projects/$id'
+import { Route as AdminProjectsNewRouteImport } from './routes/admin/projects/new'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -64,6 +67,21 @@ const WorkSlugRoute = WorkSlugRouteImport.update({
   path: '/work/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminProjectsIndexRoute = AdminProjectsIndexRouteImport.update({
+  id: '/projects/',
+  path: '/projects/',
+  getParentRoute: () => AdminRouteRoute,
+} as any)
+const AdminProjectsIdRoute = AdminProjectsIdRouteImport.update({
+  id: '/projects/$id',
+  path: '/projects/$id',
+  getParentRoute: () => AdminRouteRoute,
+} as any)
+const AdminProjectsNewRoute = AdminProjectsNewRouteImport.update({
+  id: '/projects/new',
+  path: '/projects/new',
+  getParentRoute: () => AdminRouteRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -75,6 +93,9 @@ export interface FileRoutesByFullPath {
   '/work/$slug': typeof WorkSlugRoute
   '/admin/': typeof AdminIndexRoute
   '/work/': typeof WorkIndexRoute
+  '/admin/projects/$id': typeof AdminProjectsIdRoute
+  '/admin/projects/new': typeof AdminProjectsNewRoute
+  '/admin/projects/': typeof AdminProjectsIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -85,6 +106,9 @@ export interface FileRoutesByTo {
   '/work/$slug': typeof WorkSlugRoute
   '/admin': typeof AdminIndexRoute
   '/work': typeof WorkIndexRoute
+  '/admin/projects/$id': typeof AdminProjectsIdRoute
+  '/admin/projects/new': typeof AdminProjectsNewRoute
+  '/admin/projects': typeof AdminProjectsIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -97,6 +121,9 @@ export interface FileRoutesById {
   '/work/$slug': typeof WorkSlugRoute
   '/admin/': typeof AdminIndexRoute
   '/work/': typeof WorkIndexRoute
+  '/admin/projects/$id': typeof AdminProjectsIdRoute
+  '/admin/projects/new': typeof AdminProjectsNewRoute
+  '/admin/projects/': typeof AdminProjectsIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -110,6 +137,9 @@ export interface FileRouteTypes {
     | '/work/$slug'
     | '/admin/'
     | '/work/'
+    | '/admin/projects/$id'
+    | '/admin/projects/new'
+    | '/admin/projects/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -120,6 +150,9 @@ export interface FileRouteTypes {
     | '/work/$slug'
     | '/admin'
     | '/work'
+    | '/admin/projects/$id'
+    | '/admin/projects/new'
+    | '/admin/projects'
   id:
     | '__root__'
     | '/'
@@ -131,6 +164,9 @@ export interface FileRouteTypes {
     | '/work/$slug'
     | '/admin/'
     | '/work/'
+    | '/admin/projects/$id'
+    | '/admin/projects/new'
+    | '/admin/projects/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -207,6 +243,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof WorkSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin/projects/': {
+      id: '/admin/projects/'
+      path: '/projects'
+      fullPath: '/admin/projects/'
+      preLoaderRoute: typeof AdminProjectsIndexRouteImport
+      parentRoute: typeof AdminRouteRoute
+    }
+    '/admin/projects/$id': {
+      id: '/admin/projects/$id'
+      path: '/projects/$id'
+      fullPath: '/admin/projects/$id'
+      preLoaderRoute: typeof AdminProjectsIdRouteImport
+      parentRoute: typeof AdminRouteRoute
+    }
+    '/admin/projects/new': {
+      id: '/admin/projects/new'
+      path: '/projects/new'
+      fullPath: '/admin/projects/new'
+      preLoaderRoute: typeof AdminProjectsNewRouteImport
+      parentRoute: typeof AdminRouteRoute
+    }
   }
 }
 
@@ -214,12 +271,18 @@ interface AdminRouteRouteChildren {
   AdminDashboardRoute: typeof AdminDashboardRoute
   AdminLoginRoute: typeof AdminLoginRoute
   AdminIndexRoute: typeof AdminIndexRoute
+  AdminProjectsIdRoute: typeof AdminProjectsIdRoute
+  AdminProjectsNewRoute: typeof AdminProjectsNewRoute
+  AdminProjectsIndexRoute: typeof AdminProjectsIndexRoute
 }
 
 const AdminRouteRouteChildren: AdminRouteRouteChildren = {
   AdminDashboardRoute: AdminDashboardRoute,
   AdminLoginRoute: AdminLoginRoute,
   AdminIndexRoute: AdminIndexRoute,
+  AdminProjectsIdRoute: AdminProjectsIdRoute,
+  AdminProjectsNewRoute: AdminProjectsNewRoute,
+  AdminProjectsIndexRoute: AdminProjectsIndexRoute,
 }
 
 const AdminRouteRouteWithChildren = AdminRouteRoute._addFileChildren(
