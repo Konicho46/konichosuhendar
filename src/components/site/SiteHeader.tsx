@@ -15,7 +15,7 @@ export function SiteHeader() {
     <header className="sticky top-0 z-40 border-b border-border/60 bg-background/80 backdrop-blur-md">
       <div className="shell flex h-16 items-center justify-between">
         <Link to="/" className="display text-xl tracking-tight" onClick={() => setOpen(false)}>
-          NaelSuhendar
+          Nathanael Suhendar
           <span className="text-accent">.</span>
         </Link>
 

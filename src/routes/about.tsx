@@ -7,16 +7,16 @@ import { experiencesQuery, profileQuery, skillsQuery } from "@/lib/portfolio";
 export const Route = createFileRoute("/about")({
   head: () => ({
     meta: [
-      { title: "About — NaelSuhendar, Product Designer" },
+      { title: "About — Nathanael Suhendar" },
       {
         name: "description",
         content:
-          "The design philosophy, career timeline, skills and tools behind NaelSuhendar's product design practice.",
+          "The design philosophy, experience, skills and tools behind Nathanael Suhendar's design practice.",
       },
-      { property: "og:title", content: "About — NaelSuhendar" },
+      { property: "og:title", content: "About — Nathanael Suhendar" },
       {
         property: "og:description",
-        content: "Design philosophy, experience and capabilities of NaelSuhendar.",
+        content: "Design philosophy, experience and capabilities of Nathanael Suhendar.",
       },
       { property: "og:type", content: "profile" },
       { name: "twitter:card", content: "summary_large_image" },

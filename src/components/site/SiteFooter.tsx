@@ -14,7 +14,7 @@ export function SiteFooter() {
             href={`mailto:${profile?.email ?? ""}`}
             className="display link-underline mt-3 block text-4xl sm:text-5xl"
           >
-            {profile?.email ?? "hello@naelsuhendar.com"}
+            {profile?.email ?? "nicholas.nathanael46@gmail.com"}
           </a>
         </div>
 
@@ -33,7 +33,7 @@ export function SiteFooter() {
             ))}
           </div>
           <p className="text-xs text-muted-foreground">
-            © {new Date().getFullYear()} {profile?.name ?? "NaelSuhendar"}
+            © {new Date().getUTCFullYear()} {profile?.name ?? "Nathanael Suhendar"}
           </p>
         </div>
       </div>

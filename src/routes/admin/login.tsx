@@ -44,7 +44,7 @@ function Login() {
   return (
     <div className="flex min-h-screen items-center justify-center px-6">
       <div className="w-full max-w-sm">
-        <p className="eyebrow">NaelSuhendar CMS</p>
+        <p className="eyebrow">Nathanael Suhendar CMS</p>
         <h1 className="display mt-3 text-4xl">
           {mode === "signin" ? "Welcome back" : "Create admin account"}
         </h1>

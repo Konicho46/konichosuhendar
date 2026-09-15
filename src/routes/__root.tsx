@@ -77,14 +77,14 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "NaelSuhendar — UI/UX & Product Designer" },
+      { title: "Nathanael Suhendar — Product Designer" },
       {
         name: "description",
-        content: "Portfolio of NaelSuhendar, UI/UX and product designer.",
+        content: "Portfolio of Nathanael Suhendar, a UI/UX and product designer in Sidoarjo.",
       },
-      { name: "author", content: "NaelSuhendar" },
-      { property: "og:title", content: "NaelSuhendar — UI/UX & Product Designer" },
-      { property: "og:description", content: "Portfolio of NaelSuhendar, product designer." },
+      { name: "author", content: "Nathanael Suhendar" },
+      { property: "og:title", content: "Nathanael Suhendar — Product Designer" },
+      { property: "og:description", content: "Portfolio of Nathanael Suhendar, product designer." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
@@ -93,7 +93,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
       {
         rel: "stylesheet",
-        href: "https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&family=Instrument+Serif:ital@0;1&display=swap",
+        href: "https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito+Sans:opsz,wght@6..12,400;6..12,500;6..12,600;6..12,700&display=swap",
       },
       {
         rel: "stylesheet",
