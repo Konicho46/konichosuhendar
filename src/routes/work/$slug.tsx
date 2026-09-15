@@ -30,9 +30,9 @@ export const Route = createFileRoute("/work/$slug")({
   },
   head: ({ loaderData }) => ({
     meta: [
-      { title: `${loaderData?.title ?? "Case study"} — NaelSuhendar` },
+      { title: `${loaderData?.title ?? "Case study"} — Nathanael Suhendar` },
       { name: "description", content: loaderData?.summary ?? "A product design case study." },
-      { property: "og:title", content: `${loaderData?.title ?? "Case study"} — NaelSuhendar` },
+      { property: "og:title", content: `${loaderData?.title ?? "Case study"} — Nathanael Suhendar` },
       { property: "og:description", content: loaderData?.summary ?? "" },
       { property: "og:type", content: "article" },
       { name: "twitter:card", content: "summary_large_image" },
@@ -95,17 +95,19 @@ function ProjectDetail() {
           </p>
         </header>
 
-        {(project.hero_image_url ?? project.thumbnail_url) && (
-          <div className="shell">
-            <div className="overflow-hidden rounded-3xl bg-secondary">
+        <div className="shell">
+          <div className="aspect-[16/9] overflow-hidden rounded-3xl bg-secondary">
+            {project.hero_image_url ?? project.thumbnail_url ? (
               <img
                 src={project.hero_image_url ?? project.thumbnail_url ?? ""}
                 alt={`${project.title} hero`}
                 className="h-full w-full object-cover"
               />
-            </div>
+            ) : (
+              <div className="h-full w-full animate-pulse bg-muted" aria-hidden="true" />
+            )}
           </div>
-        )}
+        </div>
 
         <div className="shell">
           <dl className="grid grid-cols-2 gap-8 border-t border-border py-12 md:grid-cols-3 lg:grid-cols-6">

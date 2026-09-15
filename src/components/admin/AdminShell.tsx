@@ -35,7 +35,7 @@ export function AdminShell({
       <aside className="flex shrink-0 flex-col justify-between border-b border-border bg-sidebar px-5 py-6 md:w-60 md:border-b-0 md:border-r">
         <div>
           <Link to="/" className="display text-lg">
-            NaelSuhendar<span className="text-accent">.</span>
+            Nathanael Suhendar<span className="text-accent">.</span>
           </Link>
           <p className="eyebrow mt-1">CMS</p>
           <nav className="mt-8 flex flex-wrap gap-1 md:flex-col">

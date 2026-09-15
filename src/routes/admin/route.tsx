@@ -5,8 +5,8 @@ import { useAuth } from "@/hooks/useAuth";
 export const Route = createFileRoute("/admin")({
   head: () => ({
     meta: [
-      { title: "CMS — NaelSuhendar" },
-      { name: "description", content: "Content management for the NaelSuhendar portfolio." },
+      { title: "CMS — Nathanael Suhendar" },
+      { name: "description", content: "Content management for the Nathanael Suhendar portfolio." },
       { name: "robots", content: "noindex, nofollow" },
     ],
   }),

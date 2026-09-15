@@ -10,13 +10,13 @@ import { cn } from "@/lib/utils";
 export const Route = createFileRoute("/work/")({
   head: () => ({
     meta: [
-      { title: "Work — NaelSuhendar, Product Designer" },
+      { title: "Work — Nathanael Suhendar" },
       {
         name: "description",
         content:
-          "Selected UI/UX and product design case studies by NaelSuhendar across ERP, SaaS, mobile and web.",
+          "Selected UI/UX and product design projects by Nathanael Suhendar across mobile and web.",
       },
-      { property: "og:title", content: "Work — NaelSuhendar" },
+      { property: "og:title", content: "Work — Nathanael Suhendar" },
       { property: "og:description", content: "Product design case studies: ERP, SaaS, mobile, web." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },

@@ -13,11 +13,13 @@ export function Reveal({
   as?: "div" | "section" | "li" | "article";
 }) {
   const ref = useRef<HTMLDivElement>(null);
-  const [visible, setVisible] = useState(false);
+  const [visible, setVisible] = useState(true);
 
   useEffect(() => {
     const node = ref.current;
     if (!node) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    setVisible(false);
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry?.isIntersecting) {

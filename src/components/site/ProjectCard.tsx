@@ -33,10 +33,8 @@ export function ProjectCard({
             className="h-full w-full object-cover transition-transform duration-[900ms] ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.04]"
           />
         ) : (
-          <div className="flex h-full w-full items-center justify-center">
-            <span className="display text-5xl text-muted-foreground/50">
-              {project.title.charAt(0)}
-            </span>
+          <div className="h-full w-full bg-secondary" aria-hidden="true">
+            <div className="h-full w-full animate-pulse bg-muted" />
           </div>
         )}
         {project.featured && (

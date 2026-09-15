@@ -14,13 +14,13 @@ import {
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "NaelSuhendar — UI/UX & Product Designer" },
+      { title: "Nathanael Suhendar — Product Designer" },
       {
         name: "description",
         content:
-          "Portfolio of NaelSuhendar, a UI/UX and product designer shaping ERP platforms, SaaS dashboards and mobile products.",
+          "Portfolio of Nathanael Suhendar, a UI/UX and product designer in Sidoarjo, East Java.",
       },
-      { property: "og:title", content: "NaelSuhendar — UI/UX & Product Designer" },
+      { property: "og:title", content: "Nathanael Suhendar — Product Designer" },
       {
         property: "og:description",
         content: "Selected product design work: ERP, SaaS, mobile and web.",
@@ -53,12 +53,12 @@ function Home() {
     <PublicLayout>
       {/* Hero */}
       <section className="shell pb-20 pt-20 sm:pt-28 lg:pb-28 lg:pt-36">
-        <p className="eyebrow rise">{profile?.location ?? "Jakarta, Indonesia"}</p>
+        <p className="eyebrow rise">{profile?.location ?? "Sidoarjo, East Java, Indonesia"}</p>
         <h1
           className="display rise mt-6 text-[clamp(3rem,11vw,9rem)]"
           style={{ animationDelay: "80ms" }}
         >
-          {profile?.name ?? "NaelSuhendar"}
+          {profile?.name ?? "Nathanael Suhendar"}
         </h1>
         <div
           className="rise mt-8 flex flex-col gap-10 border-t border-border pt-8 md:flex-row md:items-start md:justify-between"
