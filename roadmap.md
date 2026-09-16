@@ -8,5 +8,5 @@
 
 # Work page navigation
 
-- [ ] Add responsive sticky side filter with category counts
+- [x] Add responsive sticky side filter with category counts
 - [ ] Verify Work filtering on desktop and mobile
