@@ -26,7 +26,7 @@ export const Route = createFileRoute("/work/$slug")({
     const project = await context.queryClient.ensureQueryData(projectBySlugQuery(params.slug));
     if (!project) throw notFound();
     await context.queryClient.ensureQueryData(publishedProjectsQuery);
-    return { title: project.title, summary: project.summary };
+    return { title: project.title, summary: project.summary, project };
   },
   head: ({ loaderData }) => ({
     meta: [
@@ -63,7 +63,11 @@ function Block({ heading, body }: { heading: string; body: string }) {
 
 function ProjectDetail() {
   const { slug } = Route.useParams();
-  const { data: project } = useQuery(projectBySlugQuery(slug));
+  const loaderData = Route.useLoaderData();
+  const { data: project = null } = useQuery({
+    ...projectBySlugQuery(slug),
+    initialData: loaderData.project,
+  });
   const { data: all } = useQuery(publishedProjectsQuery);
   const { data: sections } = useQuery({
     ...projectSectionsQuery(project?.id ?? ""),
