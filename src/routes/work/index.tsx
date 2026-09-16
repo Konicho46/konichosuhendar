@@ -1,5 +1,4 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useQuery } from "@tanstack/react-query";
 import { useMemo, useState } from "react";
 import { PublicLayout } from "@/components/site/PublicLayout";
 import { ProjectCard } from "@/components/site/ProjectCard";
@@ -27,16 +26,16 @@ export const Route = createFileRoute("/work/")({
 });
 
 function Work() {
-  const { data: projects, isLoading } = useQuery(publishedProjectsQuery);
+  const projects = Route.useLoaderData();
   const [filter, setFilter] = useState("All");
 
   const categories = useMemo(
-    () => ["All", ...Array.from(new Set((projects ?? []).map((p) => p.category)))],
+    () => ["All", ...Array.from(new Set(projects.map((p) => p.category)))],
     [projects],
   );
 
   const visible = useMemo(() => {
-    const list = projects ?? [];
+    const list = projects;
     const filtered =
       filter === "All"
         ? list
@@ -75,16 +74,7 @@ function Work() {
       </section>
 
       <section className="shell pb-28">
-        {isLoading ? (
-          <div className="grid gap-16 lg:grid-cols-2">
-            {[0, 1].map((i) => (
-              <div key={i} className="animate-pulse">
-                <div className="aspect-[4/3] rounded-2xl bg-secondary" />
-                <div className="mt-5 h-6 w-1/2 rounded bg-secondary" />
-              </div>
-            ))}
-          </div>
-        ) : visible.length === 0 ? (
+        {visible.length === 0 ? (
           <div className="rounded-2xl border border-dashed border-border py-24 text-center">
             <p className="display text-3xl">Nothing here yet</p>
             <p className="mt-3 text-sm text-muted-foreground">

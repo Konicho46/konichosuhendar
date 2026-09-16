@@ -1,5 +1,4 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useQuery } from "@tanstack/react-query";
 import { PublicLayout } from "@/components/site/PublicLayout";
 import { Reveal } from "@/components/site/Reveal";
 import { experiencesQuery, profileQuery, skillsQuery } from "@/lib/portfolio";
@@ -22,17 +21,22 @@ export const Route = createFileRoute("/about")({
       { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
-  loader: ({ context }) => context.queryClient.ensureQueryData(profileQuery),
+  loader: async ({ context }) => {
+    const [profile, experiences, skills] = await Promise.all([
+      context.queryClient.ensureQueryData(profileQuery),
+      context.queryClient.ensureQueryData(experiencesQuery),
+      context.queryClient.ensureQueryData(skillsQuery),
+    ]);
+    return { profile, experiences, skills };
+  },
   component: About,
 });
 
 function About() {
-  const { data: profile } = useQuery(profileQuery);
-  const { data: experiences } = useQuery(experiencesQuery);
-  const { data: skills } = useQuery(skillsQuery);
+  const { profile, experiences, skills } = Route.useLoaderData();
 
-  const capabilities = (skills ?? []).filter((s) => s.category !== "Tool");
-  const tools = (skills ?? []).filter((s) => s.category === "Tool");
+  const capabilities = skills.filter((s) => s.category !== "Tool");
+  const tools = skills.filter((s) => s.category === "Tool");
 
   return (
     <PublicLayout>
@@ -72,7 +76,7 @@ function About() {
       <section className="shell grid gap-12 border-t border-border py-16 md:grid-cols-[1fr_1.4fr] lg:py-24">
         <p className="eyebrow">Career timeline</p>
         <ul className="divide-y divide-border">
-          {(experiences ?? []).map((exp, i) => (
+          {experiences.map((exp, i) => (
             <Reveal as="li" key={exp.id} delay={i * 70} className="py-8">
               <div className="flex flex-wrap items-baseline justify-between gap-3">
                 <h2 className="display text-3xl">{exp.position}</h2>

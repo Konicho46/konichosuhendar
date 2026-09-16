@@ -1,9 +1,9 @@
-import { useQuery } from "@tanstack/react-query";
-import { profileQuery, socialLinksQuery } from "@/lib/portfolio";
-
 export function SiteFooter() {
-  const { data: profile } = useQuery(profileQuery);
-  const { data: links } = useQuery(socialLinksQuery);
+  const links = [
+    { label: "LinkedIn", url: "https://www.linkedin.com/in/nicholassuhendar/" },
+    { label: "Behance", url: "https://www.behance.net/nicholasuhendar" },
+    { label: "Instagram", url: "https://www.instagram.com/konicho.46/" },
+  ];
 
   return (
     <footer className="border-t border-border/60 py-14">
@@ -11,18 +11,18 @@ export function SiteFooter() {
         <div>
           <p className="eyebrow">Available for select projects</p>
           <a
-            href={`mailto:${profile?.email ?? ""}`}
+            href="mailto:nicholas.nathanael46@gmail.com"
             className="display link-underline mt-3 block text-4xl sm:text-5xl"
           >
-            {profile?.email ?? "nicholas.nathanael46@gmail.com"}
+            nicholas.nathanael46@gmail.com
           </a>
         </div>
 
         <div className="flex flex-col gap-3 md:items-end">
           <div className="flex flex-wrap gap-6 text-sm">
-            {(links ?? []).map((link) => (
+            {links.map((link) => (
               <a
-                key={link.id}
+                key={link.label}
                 href={link.url}
                 target="_blank"
                 rel="noreferrer noopener"
@@ -33,7 +33,7 @@ export function SiteFooter() {
             ))}
           </div>
           <p className="text-xs text-muted-foreground">
-            © {new Date().getUTCFullYear()} {profile?.name ?? "Nathanael Suhendar"}
+            © 2026 Nathanael Suhendar
           </p>
         </div>
       </div>
