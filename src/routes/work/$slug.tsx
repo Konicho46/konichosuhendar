@@ -25,8 +25,11 @@ export const Route = createFileRoute("/work/$slug")({
   loader: async ({ context, params }) => {
     const project = await context.queryClient.ensureQueryData(projectBySlugQuery(params.slug));
     if (!project) throw notFound();
-    await context.queryClient.ensureQueryData(publishedProjectsQuery);
-    return { title: project.title, summary: project.summary, project };
+    const [all, sections] = await Promise.all([
+      context.queryClient.ensureQueryData(publishedProjectsQuery),
+      context.queryClient.ensureQueryData(projectSectionsQuery(project.id)),
+    ]);
+    return { title: project.title, summary: project.summary, project, all, sections };
   },
   head: ({ loaderData }) => ({
     meta: [
@@ -68,15 +71,19 @@ function ProjectDetail() {
     ...projectBySlugQuery(slug),
     initialData: loaderData.project,
   });
-  const { data: all } = useQuery(publishedProjectsQuery);
-  const { data: sections } = useQuery({
+  const { data: all = [] } = useQuery({
+    ...publishedProjectsQuery,
+    initialData: loaderData.all,
+  });
+  const { data: sections = [] } = useQuery({
     ...projectSectionsQuery(project?.id ?? ""),
     enabled: Boolean(project?.id),
+    initialData: loaderData.sections,
   });
 
   if (!project) return null;
 
-  const ordered = [...(all ?? [])].sort((a, b) => a.sort_order - b.sort_order);
+  const ordered = [...all].sort((a, b) => a.sort_order - b.sort_order);
   const index = ordered.findIndex((p) => p.id === project.id);
   const prev = index > 0 ? ordered[index - 1] : undefined;
   const next = index >= 0 && index < ordered.length - 1 ? ordered[index + 1] : undefined;
@@ -144,7 +151,7 @@ function ProjectDetail() {
           <Block heading="Final Design" body={project.final_design} />
           <Block heading="Outcome & Impact" body={project.outcome} />
 
-          {(sections ?? []).map((section) => (
+          {sections.map((section) => (
             <Reveal
               key={section.id}
               className="grid gap-6 border-t border-border py-12 md:grid-cols-[1fr_1.6fr]"
