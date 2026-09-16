@@ -3,6 +3,7 @@ import { useMemo, useState } from "react";
 import { PublicLayout } from "@/components/site/PublicLayout";
 import { ProjectCard } from "@/components/site/ProjectCard";
 import { Reveal } from "@/components/site/Reveal";
+import { Button } from "@/components/ui/button";
 import { publishedProjectsQuery } from "@/lib/portfolio";
 import { cn } from "@/lib/utils";
 
@@ -34,6 +35,21 @@ function Work() {
     [projects],
   );
 
+  const categoryCounts = useMemo(
+    () =>
+      new Map(
+        categories.map((category) => [
+          category,
+          category === "All"
+            ? projects.length
+            : projects.filter((project) =>
+                project.category === category || project.tags.includes(category),
+              ).length,
+        ]),
+      ),
+    [categories, projects],
+  );
+
   const visible = useMemo(() => {
     const list = projects;
     const filtered =
@@ -47,49 +63,89 @@ function Work() {
 
   return (
     <PublicLayout>
-      <section className="shell pb-16 pt-20 lg:pt-28">
+      <section className="shell pb-10 pt-20 lg:pb-16 lg:pt-28">
         <p className="eyebrow rise">Portfolio</p>
         <h1 className="display rise mt-5 text-[clamp(3rem,9vw,7rem)]">Work</h1>
         <p className="rise mt-6 max-w-lg text-muted-foreground">
           Case studies from complex systems, consumer mobile and everything in between.
         </p>
-
-        <div className="mt-12 flex flex-wrap gap-2">
-          {categories.map((category) => (
-            <button
-              key={category}
-              type="button"
-              onClick={() => setFilter(category)}
-              className={cn(
-                "rounded-full border px-4 py-2 text-sm transition-all duration-300",
-                filter === category
-                  ? "border-foreground bg-primary text-primary-foreground"
-                  : "border-border text-muted-foreground hover:border-foreground hover:text-foreground",
-              )}
-            >
-              {category}
-            </button>
-          ))}
-        </div>
       </section>
 
-      <section className="shell pb-28">
-        {visible.length === 0 ? (
-          <div className="rounded-2xl border border-dashed border-border py-24 text-center">
-            <p className="display text-3xl">Nothing here yet</p>
-            <p className="mt-3 text-sm text-muted-foreground">
-              No projects match this category — try another filter.
+      <div className="sticky top-16 z-30 border-y border-border/70 bg-background/95 backdrop-blur-md lg:hidden">
+        <div
+          className="shell flex gap-2 overflow-x-auto py-3 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+          aria-label="Filter projects by category"
+        >
+          {categories.map((category) => (
+            <Button
+              key={category}
+              type="button"
+              variant={filter === category ? "default" : "outline"}
+              size="sm"
+              aria-pressed={filter === category}
+              onClick={() => setFilter(category)}
+              className="shrink-0 rounded-full shadow-none"
+            >
+              {category}
+              <span className="text-[10px] opacity-65">{categoryCounts.get(category)}</span>
+            </Button>
+          ))}
+        </div>
+      </div>
+
+      <section className="shell grid items-start gap-12 pb-28 pt-10 lg:grid-cols-[13rem_minmax(0,1fr)] lg:gap-10 lg:pt-0 xl:grid-cols-[15rem_minmax(0,1fr)] xl:gap-16">
+        <aside className="sticky top-24 hidden max-h-[calc(100vh-7rem)] overflow-y-auto pr-2 lg:block">
+          <p className="eyebrow mb-5">Work index</p>
+          <nav className="space-y-1" aria-label="Filter projects by category">
+            {categories.map((category) => (
+              <Button
+                key={category}
+                type="button"
+                variant="ghost"
+                aria-pressed={filter === category}
+                onClick={() => setFilter(category)}
+                className={cn(
+                  "grid h-auto w-full grid-cols-[minmax(0,1fr)_auto] justify-start rounded-md px-3 py-3 text-left shadow-none",
+                  filter === category
+                    ? "bg-primary text-primary-foreground hover:bg-primary hover:text-primary-foreground"
+                    : "text-muted-foreground hover:bg-secondary hover:text-foreground",
+                )}
+              >
+                <span className="min-w-0 truncate">{category}</span>
+                <span className="shrink-0 text-xs opacity-60">{categoryCounts.get(category)}</span>
+              </Button>
+            ))}
+          </nav>
+        </aside>
+
+        <div className="min-w-0">
+          <div className="mb-10 grid grid-cols-[minmax(0,1fr)_auto] items-end gap-4 border-b border-border pb-5">
+            <div className="min-w-0">
+              <p className="eyebrow">Showing</p>
+              <h2 className="display mt-2 truncate text-3xl sm:text-4xl">{filter === "All" ? "All projects" : filter}</h2>
+            </div>
+            <p className="shrink-0 text-sm text-muted-foreground">
+              {visible.length} {visible.length === 1 ? "project" : "projects"}
             </p>
           </div>
-        ) : (
-          <div className="grid gap-16 lg:grid-cols-2">
-            {visible.map((project, i) => (
-              <Reveal key={project.id} delay={(i % 2) * 90}>
-                <ProjectCard project={project} priority={i < 2} />
-              </Reveal>
-            ))}
-          </div>
-        )}
+
+          {visible.length === 0 ? (
+            <div className="rounded-lg border border-dashed border-border py-24 text-center">
+              <p className="display text-3xl">Nothing here yet</p>
+              <p className="mt-3 text-sm text-muted-foreground">
+                No projects match this category — try another filter.
+              </p>
+            </div>
+          ) : (
+            <div className="grid gap-x-8 gap-y-16 md:grid-cols-2">
+              {visible.map((project, i) => (
+                <Reveal key={project.id} delay={(i % 2) * 90}>
+                  <ProjectCard project={project} priority={i < 2} />
+                </Reveal>
+              ))}
+            </div>
+          )}
+        </div>
       </section>
     </PublicLayout>
   );

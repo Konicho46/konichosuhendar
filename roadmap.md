@@ -5,3 +5,8 @@
 - [x] Replace project catalogue with the supplied 21 entries
 - [x] Fix hydration mismatch
 - [x] Verify desktop and mobile pages
+
+# Work page navigation
+
+- [x] Add responsive sticky side filter with category counts
+- [x] Verify Work filtering on desktop and mobile
