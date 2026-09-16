@@ -1,5 +1,4 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useQuery } from "@tanstack/react-query";
 import { ArrowRight } from "lucide-react";
 import { PublicLayout } from "@/components/site/PublicLayout";
 import { ProjectCard } from "@/components/site/ProjectCard";
@@ -30,24 +29,24 @@ export const Route = createFileRoute("/")({
     ],
   }),
   loader: async ({ context }) => {
-    await Promise.all([
+    const [projects, profile, experiences, skills] = await Promise.all([
       context.queryClient.ensureQueryData(publishedProjectsQuery),
       context.queryClient.ensureQueryData(profileQuery),
+      context.queryClient.ensureQueryData(experiencesQuery),
+      context.queryClient.ensureQueryData(skillsQuery),
     ]);
+    return { projects, profile, experiences, skills };
   },
   component: Home,
 });
 
 function Home() {
-  const { data: projects } = useQuery(publishedProjectsQuery);
-  const { data: profile } = useQuery(profileQuery);
-  const { data: experiences } = useQuery(experiencesQuery);
-  const { data: skills } = useQuery(skillsQuery);
+  const { projects, profile, experiences, skills } = Route.useLoaderData();
 
-  const featured = (projects ?? []).filter((p) => p.featured).slice(0, 2);
-  const rest = (projects ?? []).filter((p) => !p.featured).slice(0, 2);
-  const capabilities = (skills ?? []).filter((s) => s.category !== "Tool");
-  const tools = (skills ?? []).filter((s) => s.category === "Tool");
+  const featured = projects.filter((p) => p.featured).slice(0, 2);
+  const rest = projects.filter((p) => !p.featured).slice(0, 2);
+  const capabilities = skills.filter((s) => s.category !== "Tool");
+  const tools = skills.filter((s) => s.category === "Tool");
 
   return (
     <PublicLayout>
@@ -139,7 +138,7 @@ function Home() {
         <Reveal className="grid gap-12 md:grid-cols-[1fr_1.4fr]">
           <p className="eyebrow">Selected experience</p>
           <ul className="divide-y divide-border">
-            {(experiences ?? []).map((exp) => (
+            {experiences.map((exp) => (
               <li key={exp.id} className="flex flex-wrap items-baseline gap-x-6 gap-y-1 py-5">
                 <span className="w-28 shrink-0 text-sm text-muted-foreground">
                   {exp.start_date} — {exp.end_date}

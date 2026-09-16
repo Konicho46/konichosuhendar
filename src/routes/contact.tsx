@@ -1,5 +1,4 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import { z } from "zod";
 import { PublicLayout } from "@/components/site/PublicLayout";
@@ -21,6 +20,13 @@ export const Route = createFileRoute("/contact")({
       { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
+  loader: async ({ context }) => {
+    const [profile, links] = await Promise.all([
+      context.queryClient.ensureQueryData(profileQuery),
+      context.queryClient.ensureQueryData(socialLinksQuery),
+    ]);
+    return { profile, links };
+  },
   component: Contact,
 });
 
@@ -33,8 +39,7 @@ const schema = z.object({
 type Errors = Partial<Record<"name" | "email" | "message", string>>;
 
 function Contact() {
-  const { data: profile } = useQuery(profileQuery);
-  const { data: links } = useQuery(socialLinksQuery);
+  const { profile, links } = Route.useLoaderData();
   const [values, setValues] = useState({ name: "", email: "", message: "" });
   const [errors, setErrors] = useState<Errors>({});
   const [status, setStatus] = useState<"idle" | "sending" | "sent" | "error">("idle");
@@ -89,7 +94,7 @@ function Contact() {
             <div>
               <dt className="eyebrow">Elsewhere</dt>
               <dd className="mt-2 flex flex-wrap gap-5">
-                {(links ?? []).map((link) => (
+                {links.map((link) => (
                   <a
                     key={link.id}
                     href={link.url}
