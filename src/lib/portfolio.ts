@@ -9,6 +9,7 @@ export type Skill = Tables<"skills">;
 export type Profile = Tables<"profile">;
 export type SocialLink = Tables<"social_links">;
 export type SiteSettings = Tables<"site_settings">;
+export type ProjectCategory = Tables<"project_categories">;
 
 export const CATEGORIES = [
   "Product Design",
@@ -96,6 +97,14 @@ export const settingsQuery = queryOptions({
   queryKey: ["site-settings"],
   queryFn: () =>
     unwrap<SiteSettings>(supabase.from("site_settings").select("*").limit(1).maybeSingle()),
+});
+
+export const projectCategoriesQuery = queryOptions({
+  queryKey: ["project-categories"],
+  queryFn: () =>
+    unwrap<ProjectCategory[]>(
+      supabase.from("project_categories").select("*").order("sort_order", { ascending: true }),
+    ),
 });
 
 /** Uploads an image to the portfolio bucket and returns a long-lived signed URL. */
