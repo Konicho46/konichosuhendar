@@ -25,9 +25,9 @@ export function ProjectCard({
           large ? "aspect-[16/10]" : "aspect-[4/3]",
         )}
       >
-        {project.thumbnail_url ? (
+        {project.thumbnail_url ?? project.hero_image_url ? (
           <img
-            src={project.thumbnail_url}
+            src={project.thumbnail_url ?? project.hero_image_url ?? ""}
             alt={`${project.title} cover`}
             loading={priority ? "eager" : "lazy"}
             className="h-full w-full object-cover transition-transform duration-[900ms] ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.04]"

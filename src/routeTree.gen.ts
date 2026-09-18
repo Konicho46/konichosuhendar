@@ -15,6 +15,7 @@ import { Route as AdminRouteRouteImport } from './routes/admin/route'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as AdminIndexRouteImport } from './routes/admin/index'
 import { Route as AdminAboutRouteImport } from './routes/admin/about'
+import { Route as AdminCategoriesRouteImport } from './routes/admin/categories'
 import { Route as AdminDashboardRouteImport } from './routes/admin/dashboard'
 import { Route as AdminExperienceRouteImport } from './routes/admin/experience'
 import { Route as AdminLoginRouteImport } from './routes/admin/login'
@@ -54,6 +55,11 @@ const AdminIndexRoute = AdminIndexRouteImport.update({
 const AdminAboutRoute = AdminAboutRouteImport.update({
   id: '/about',
   path: '/about',
+  getParentRoute: () => AdminRouteRoute,
+} as any)
+const AdminCategoriesRoute = AdminCategoriesRouteImport.update({
+  id: '/categories',
+  path: '/categories',
   getParentRoute: () => AdminRouteRoute,
 } as any)
 const AdminDashboardRoute = AdminDashboardRouteImport.update({
@@ -113,6 +119,7 @@ export interface FileRoutesByFullPath {
   '/about': typeof AboutRoute
   '/contact': typeof ContactRoute
   '/admin/about': typeof AdminAboutRoute
+  '/admin/categories': typeof AdminCategoriesRoute
   '/admin/dashboard': typeof AdminDashboardRoute
   '/admin/experience': typeof AdminExperienceRoute
   '/admin/login': typeof AdminLoginRoute
@@ -130,6 +137,7 @@ export interface FileRoutesByTo {
   '/about': typeof AboutRoute
   '/contact': typeof ContactRoute
   '/admin/about': typeof AdminAboutRoute
+  '/admin/categories': typeof AdminCategoriesRoute
   '/admin/dashboard': typeof AdminDashboardRoute
   '/admin/experience': typeof AdminExperienceRoute
   '/admin/login': typeof AdminLoginRoute
@@ -149,6 +157,7 @@ export interface FileRoutesById {
   '/about': typeof AboutRoute
   '/contact': typeof ContactRoute
   '/admin/about': typeof AdminAboutRoute
+  '/admin/categories': typeof AdminCategoriesRoute
   '/admin/dashboard': typeof AdminDashboardRoute
   '/admin/experience': typeof AdminExperienceRoute
   '/admin/login': typeof AdminLoginRoute
@@ -169,6 +178,7 @@ export interface FileRouteTypes {
     | '/about'
     | '/contact'
     | '/admin/about'
+    | '/admin/categories'
     | '/admin/dashboard'
     | '/admin/experience'
     | '/admin/login'
@@ -186,6 +196,7 @@ export interface FileRouteTypes {
     | '/about'
     | '/contact'
     | '/admin/about'
+    | '/admin/categories'
     | '/admin/dashboard'
     | '/admin/experience'
     | '/admin/login'
@@ -204,6 +215,7 @@ export interface FileRouteTypes {
     | '/about'
     | '/contact'
     | '/admin/about'
+    | '/admin/categories'
     | '/admin/dashboard'
     | '/admin/experience'
     | '/admin/login'
@@ -268,6 +280,13 @@ declare module '@tanstack/react-router' {
       path: '/about'
       fullPath: '/admin/about'
       preLoaderRoute: typeof AdminAboutRouteImport
+      parentRoute: typeof AdminRouteRoute
+    }
+    '/admin/categories': {
+      id: '/admin/categories'
+      path: '/categories'
+      fullPath: '/admin/categories'
+      preLoaderRoute: typeof AdminCategoriesRouteImport
       parentRoute: typeof AdminRouteRoute
     }
     '/admin/dashboard': {
@@ -345,6 +364,7 @@ declare module '@tanstack/react-router' {
 
 interface AdminRouteRouteChildren {
   AdminAboutRoute: typeof AdminAboutRoute
+  AdminCategoriesRoute: typeof AdminCategoriesRoute
   AdminDashboardRoute: typeof AdminDashboardRoute
   AdminExperienceRoute: typeof AdminExperienceRoute
   AdminLoginRoute: typeof AdminLoginRoute
@@ -358,6 +378,7 @@ interface AdminRouteRouteChildren {
 
 const AdminRouteRouteChildren: AdminRouteRouteChildren = {
   AdminAboutRoute: AdminAboutRoute,
+  AdminCategoriesRoute: AdminCategoriesRoute,
   AdminDashboardRoute: AdminDashboardRoute,
   AdminExperienceRoute: AdminExperienceRoute,
   AdminLoginRoute: AdminLoginRoute,

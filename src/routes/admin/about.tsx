@@ -241,8 +241,8 @@ function SocialRow({
 }) {
   const [draft, setDraft] = useState(link);
   return (
-    <div className="flex flex-wrap items-end gap-3 rounded-2xl border border-border p-4">
-      <label className="min-w-32">
+    <div className="grid grid-cols-1 items-end gap-3 rounded-lg border border-border p-4 sm:grid-cols-[minmax(8rem,.6fr)_minmax(0,1.4fr)_auto_auto]">
+      <label className="min-w-0">
         <span className="eyebrow">Label</span>
         <input
           className={`${inputClass} mt-2`}
@@ -250,7 +250,7 @@ function SocialRow({
           onChange={(e) => setDraft({ ...draft, label: e.target.value })}
         />
       </label>
-      <label className="min-w-56 flex-1">
+      <label className="min-w-0">
         <span className="eyebrow">URL</span>
         <input
           className={`${inputClass} mt-2`}

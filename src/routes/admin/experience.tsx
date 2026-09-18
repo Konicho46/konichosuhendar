@@ -1,11 +1,13 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
-import { Plus, Trash2 } from "lucide-react";
+import { ArrowDown, ArrowUp, Plus, Trash2 } from "lucide-react";
 import { toast } from "sonner";
 import { AdminShell, btnGhost, btnPrimary, inputClass } from "@/components/admin/AdminShell";
 import { experiencesQuery, type Experience } from "@/lib/portfolio";
 import { supabase } from "@/integrations/supabase/client";
+import { Button } from "@/components/ui/button";
+import { moveItem, normalizedOrder } from "@/lib/reorder";
 
 export const Route = createFileRoute("/admin/experience")({
   component: ExperienceAdmin,
@@ -61,6 +63,15 @@ function ExperienceAdmin() {
     onError: (error: Error) => toast.error(error.message),
   });
 
+  function move(index: number, direction: -1 | 1) {
+    const list = [...(experiences ?? [])].sort((a, b) => a.sort_order - b.sort_order);
+    const ordered = normalizedOrder(moveItem(list, index, direction));
+    Promise.all(ordered.map(({ id, sort_order }) => supabase.from("experiences").update({ sort_order }).eq("id", id))).then((results) => {
+      const failed = results.find((result) => result.error);
+      if (failed?.error) toast.error(failed.error.message); else invalidate();
+    });
+  }
+
   return (
     <AdminShell
       title="Experience"
@@ -75,12 +86,15 @@ function ExperienceAdmin() {
         <p className="text-sm text-muted-foreground">Loading…</p>
       ) : (
         <div className="space-y-5">
-          {(experiences ?? []).map((item) => (
+          {[...(experiences ?? [])].sort((a, b) => a.sort_order - b.sort_order).map((item, index, list) => (
             <ExperienceCard
               key={item.id}
               item={item}
               onSave={(next) => save.mutate(next)}
               onDelete={() => remove.mutate(item.id)}
+              onMove={(direction) => move(index, direction)}
+              first={index === 0}
+              last={index === list.length - 1}
             />
           ))}
           {(experiences ?? []).length === 0 && (
@@ -98,15 +112,28 @@ function ExperienceCard({
   item,
   onSave,
   onDelete,
+  onMove,
+  first,
+  last,
 }: {
   item: Experience;
   onSave: (item: Experience) => void;
   onDelete: () => void;
+  onMove: (direction: -1 | 1) => void;
+  first: boolean;
+  last: boolean;
 }) {
   const [draft, setDraft] = useState(item);
 
   return (
     <div className="space-y-4 rounded-2xl border border-border p-5">
+      <div className="flex items-center justify-between gap-3">
+        <p className="eyebrow">Position in timeline</p>
+        <div className="flex">
+          <Button type="button" variant="ghost" size="icon" aria-label="Move role up" disabled={first} onClick={() => onMove(-1)}><ArrowUp /></Button>
+          <Button type="button" variant="ghost" size="icon" aria-label="Move role down" disabled={last} onClick={() => onMove(1)}><ArrowDown /></Button>
+        </div>
+      </div>
       <div className="grid gap-4 sm:grid-cols-2">
         <label className="block">
           <span className="eyebrow">Company</span>
@@ -164,17 +191,8 @@ function ExperienceCard({
         />
       </label>
 
-      <div className="flex flex-wrap items-center gap-3">
-        <label className="flex items-center gap-2 text-sm text-muted-foreground">
-          Order
-          <input
-            type="number"
-            className={`${inputClass} w-20`}
-            value={draft.sort_order}
-            onChange={(e) => setDraft({ ...draft, sort_order: Number(e.target.value) })}
-          />
-        </label>
-        <div className="ml-auto flex gap-3">
+      <div className="flex flex-col gap-3 sm:flex-row sm:justify-end">
+        <div className="flex gap-3 sm:ml-auto">
           <button type="button" className={btnGhost} onClick={onDelete}>
             <Trash2 className="h-4 w-4" /> Delete
           </button>
