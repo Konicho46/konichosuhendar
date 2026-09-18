@@ -5,6 +5,8 @@ import { toast } from "sonner";
 import { AdminShell, btnPrimary } from "@/components/admin/AdminShell";
 import { allProjectsQuery, type Project } from "@/lib/portfolio";
 import { supabase } from "@/integrations/supabase/client";
+import { moveItem, normalizedOrder } from "@/lib/reorder";
+import { Button } from "@/components/ui/button";
 
 export const Route = createFileRoute("/admin/projects/")({
   component: ProjectsAdmin,
@@ -40,11 +42,16 @@ function ProjectsAdmin() {
   });
 
   function move(index: number, direction: -1 | 1) {
-    const current = list[index];
-    const target = list[index + direction];
-    if (!current || !target) return;
-    patch.mutate({ id: current.id, values: { sort_order: target.sort_order } });
-    patch.mutate({ id: target.id, values: { sort_order: current.sort_order } });
+    const ordered = normalizedOrder(moveItem(list, index, direction));
+    Promise.all(
+      ordered.map(({ id, sort_order }) =>
+        supabase.from("projects").update({ sort_order }).eq("id", id),
+      ),
+    ).then((results) => {
+      const failed = results.find((result) => result.error);
+      if (failed?.error) toast.error(failed.error.message);
+      else queryClient.invalidateQueries({ queryKey: ["projects"] });
+    });
   }
 
   return (
@@ -69,26 +76,26 @@ function ProjectsAdmin() {
       ) : (
         <ul className="divide-y divide-border rounded-2xl border border-border">
           {list.map((project, index) => (
-            <li key={project.id} className="flex flex-wrap items-center gap-4 p-4">
+            <li key={project.id} className="grid grid-cols-[auto_minmax(0,1fr)] items-center gap-3 p-4 sm:grid-cols-[auto_minmax(0,1fr)_auto_auto_auto]">
               <div className="flex flex-col gap-1">
-                <button
+                <Button
                   type="button"
                   aria-label="Move up"
                   disabled={index === 0}
                   onClick={() => move(index, -1)}
-                  className="rounded p-1 text-muted-foreground hover:text-foreground disabled:opacity-30"
+                  variant="ghost" size="icon" className="h-7 w-7"
                 >
                   <ArrowUp className="h-3.5 w-3.5" />
-                </button>
-                <button
+                </Button>
+                <Button
                   type="button"
                   aria-label="Move down"
                   disabled={index === list.length - 1}
                   onClick={() => move(index, 1)}
-                  className="rounded p-1 text-muted-foreground hover:text-foreground disabled:opacity-30"
+                  variant="ghost" size="icon" className="h-7 w-7"
                 >
                   <ArrowDown className="h-3.5 w-3.5" />
-                </button>
+                </Button>
               </div>
 
               <div className="min-w-0 flex-1">
@@ -110,7 +117,7 @@ function ProjectsAdmin() {
                 onClick={() =>
                   patch.mutate({ id: project.id, values: { featured: !project.featured } })
                 }
-                className={`rounded-full p-2 transition-colors ${
+                className={`col-start-2 justify-self-start rounded-full p-2 transition-colors sm:col-auto sm:justify-self-auto ${
                   project.featured ? "text-accent" : "text-muted-foreground hover:text-foreground"
                 }`}
               >
