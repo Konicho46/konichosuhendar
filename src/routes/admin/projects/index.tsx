@@ -9,6 +9,16 @@ import { moveItem, normalizedOrder } from "@/lib/reorder";
 import { Button } from "@/components/ui/button";
 
 export const Route = createFileRoute("/admin/projects/")({
+  head: () => ({
+    meta: [
+      { title: "Projects — Portfolio CMS" },
+      { name: "description", content: "Manage portfolio projects." },
+      { property: "og:title", content: "Projects — Portfolio CMS" },
+      { property: "og:description", content: "Manage portfolio projects." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary" },
+    ],
+  }),
   component: ProjectsAdmin,
 });
 

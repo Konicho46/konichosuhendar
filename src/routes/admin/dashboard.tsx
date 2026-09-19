@@ -4,6 +4,16 @@ import { AdminShell, btnPrimary } from "@/components/admin/AdminShell";
 import { allProjectsQuery } from "@/lib/portfolio";
 
 export const Route = createFileRoute("/admin/dashboard")({
+  head: () => ({
+    meta: [
+      { title: "Dashboard — Portfolio CMS" },
+      { name: "description", content: "Portfolio content overview." },
+      { property: "og:title", content: "Dashboard — Portfolio CMS" },
+      { property: "og:description", content: "Portfolio content overview." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary" },
+    ],
+  }),
   component: Dashboard,
 });
 

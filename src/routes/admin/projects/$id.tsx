@@ -5,6 +5,16 @@ import { ProjectForm } from "@/components/admin/ProjectForm";
 import { projectQuery } from "@/lib/portfolio";
 
 export const Route = createFileRoute("/admin/projects/$id")({
+  head: () => ({
+    meta: [
+      { title: "Edit Project — Portfolio CMS" },
+      { name: "description", content: "Edit a portfolio project." },
+      { property: "og:title", content: "Edit Project — Portfolio CMS" },
+      { property: "og:description", content: "Edit a portfolio project." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary" },
+    ],
+  }),
   component: EditProject,
 });
 
