@@ -4,14 +4,24 @@ import { AdminShell, btnPrimary } from "@/components/admin/AdminShell";
 import { allProjectsQuery } from "@/lib/portfolio";
 
 export const Route = createFileRoute("/admin/dashboard")({
+  head: () => ({
+    meta: [
+      { title: "Dashboard — Portfolio CMS" },
+      { name: "description", content: "Portfolio content overview." },
+      { property: "og:title", content: "Dashboard — Portfolio CMS" },
+      { property: "og:description", content: "Portfolio content overview." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary" },
+    ],
+  }),
   component: Dashboard,
 });
 
 function Stat({ label, value }: { label: string; value: number }) {
   return (
-    <div className="rounded-2xl border border-border p-6">
+    <div className="rounded-lg border border-border p-4 sm:p-6">
       <p className="eyebrow">{label}</p>
-      <p className="display mt-3 text-5xl">{value}</p>
+      <p className="display mt-3 text-4xl sm:text-5xl">{value}</p>
     </div>
   );
 }
@@ -58,8 +68,8 @@ function Dashboard() {
                   .sort((a, b) => b.updated_at.localeCompare(a.updated_at))
                   .slice(0, 6)
                   .map((project) => (
-                    <li key={project.id} className="flex items-center justify-between gap-4 p-4">
-                      <div>
+                     <li key={project.id} className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-3 p-4">
+                       <div className="min-w-0">
                         <Link
                           to="/admin/projects/$id"
                           params={{ id: project.id }}
@@ -67,7 +77,7 @@ function Dashboard() {
                         >
                           {project.title}
                         </Link>
-                        <p className="text-xs text-muted-foreground">/work/{project.slug}</p>
+                         <p className="truncate text-xs text-muted-foreground">/work/{project.slug}</p>
                       </div>
                       <span
                         className={`rounded-full px-3 py-1 text-xs ${

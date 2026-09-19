@@ -1,6 +1,7 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { queryOptions, useQuery } from "@tanstack/react-query";
-import { ArrowLeft, ArrowRight } from "lucide-react";
+import { useRef, useState } from "react";
+import { ArrowLeft, ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
 import { PublicLayout } from "@/components/site/PublicLayout";
 import { Reveal } from "@/components/site/Reveal";
 import { publishedProjectsQuery, projectSectionsQuery, type Project } from "@/lib/portfolio";
@@ -56,12 +57,35 @@ function Meta({ label, value }: { label: string; value: string }) {
 
 function Block({ heading, body }: { heading: string; body: string }) {
   if (!body) return null;
+  const items = body.split("\n").map((item) => item.trim()).filter(Boolean);
   return (
     <Reveal className="grid gap-6 border-t border-border py-12 md:grid-cols-[1fr_1.6fr]">
       <h2 className="eyebrow pt-1">{heading}</h2>
-      <p className="max-w-2xl text-lg leading-relaxed">{body}</p>
+      <ul className="max-w-2xl space-y-3">
+        {items.map((item, index) => <li key={`${item}-${index}`} className="flex gap-3 text-lg leading-relaxed"><span className="text-accent" aria-hidden="true">—</span><span>{item}</span></li>)}
+      </ul>
     </Reveal>
   );
+}
+
+function ImageSlider({ images, title }: { images: string[]; title: string }) {
+  const [active, setActive] = useState(0);
+  const track = useRef<HTMLDivElement>(null);
+  if (!images.length) return null;
+  const go = (index: number) => {
+    const next = (index + images.length) % images.length;
+    setActive(next);
+    track.current?.children.item(next)?.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "start" });
+  };
+  return <Reveal className="border-t border-border py-12">
+    <div className="mb-6 grid grid-cols-[minmax(0,1fr)_auto] items-center gap-4">
+      <div><h2 className="eyebrow">Case study images</h2><p className="mt-2 text-sm text-muted-foreground">{active + 1} / {images.length}</p></div>
+      {images.length > 1 && <div className="flex gap-2"><button type="button" aria-label="Previous image" className="grid h-10 w-10 place-items-center rounded-full border border-border" onClick={() => go(active - 1)}><ChevronLeft /></button><button type="button" aria-label="Next image" className="grid h-10 w-10 place-items-center rounded-full border border-border" onClick={() => go(active + 1)}><ChevronRight /></button></div>}
+    </div>
+    <div ref={track} tabIndex={0} aria-label="Case study image slider" onKeyDown={(event) => { if (event.key === "ArrowLeft") go(active - 1); if (event.key === "ArrowRight") go(active + 1); }} onScroll={(event) => { const element = event.currentTarget; if (element.clientWidth) setActive(Math.round(element.scrollLeft / element.clientWidth)); }} className="flex snap-x snap-mandatory overflow-x-auto rounded-lg [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+      {images.map((src, index) => <div key={`${src}-${index}`} className="aspect-[16/10] min-w-full snap-start bg-secondary"><img src={src} alt={`${title} case study ${index + 1}`} loading="lazy" className="h-full w-full object-contain" /></div>)}
+    </div>
+  </Reveal>;
 }
 
 function ProjectDetail() {
@@ -87,6 +111,7 @@ function ProjectDetail() {
   const index = ordered.findIndex((p) => p.id === project.id);
   const prev = index > 0 ? ordered[index - 1] : undefined;
   const next = index >= 0 && index < ordered.length - 1 ? ordered[index + 1] : undefined;
+  const sliderImages = [...sections].sort((a, b) => a.sort_order - b.sort_order).flatMap((section) => section.images).filter(Boolean);
 
   return (
     <PublicLayout>
@@ -121,11 +146,9 @@ function ProjectDetail() {
         </div>
 
         <div className="shell">
-          <dl className="grid grid-cols-2 gap-8 border-t border-border py-12 md:grid-cols-3 lg:grid-cols-6">
+           <dl className="grid grid-cols-2 gap-8 border-t border-border py-12 md:grid-cols-4">
             <Meta label="Role" value={project.role} />
             <Meta label="Client" value={project.client} />
-            <Meta label="Timeline" value={project.timeline} />
-            <Meta label="Platform" value={project.platform} />
             <Meta label="Category" value={project.category} />
             <Meta label="Year" value={project.year} />
           </dl>
@@ -148,69 +171,8 @@ function ProjectDetail() {
           <Block heading="Goals" body={project.goals} />
           <Block heading="Research & Discovery" body={project.research} />
           <Block heading="Design Process" body={project.design_process} />
-          <Block heading="Final Design" body={project.final_design} />
           <Block heading="Outcome & Impact" body={project.outcome} />
-
-          {sections.map((section) => (
-            <Reveal
-              key={section.id}
-              className="grid gap-6 border-t border-border py-12 md:grid-cols-[1fr_1.6fr]"
-            >
-              <h2 className="eyebrow pt-1">{section.heading}</h2>
-              <div className="max-w-2xl">
-                {section.section_type === "quote" ? (
-                  <blockquote className="display text-3xl leading-tight">{section.body}</blockquote>
-                ) : section.section_type === "list" ? (
-                  <ul className="space-y-3">
-                    {section.items.map((item) => (
-                      <li key={item} className="flex gap-3 text-lg">
-                        <span className="text-accent">—</span>
-                        {item}
-                      </li>
-                    ))}
-                  </ul>
-                ) : (
-                  section.body && <p className="text-lg leading-relaxed">{section.body}</p>
-                )}
-
-                {section.images.length > 0 && (
-                  <div className="mt-8 grid gap-4 sm:grid-cols-2">
-                    {section.images.map((src) => (
-                      <img
-                        key={src}
-                        src={src}
-                        alt={section.caption || section.heading}
-                        loading="lazy"
-                        className="w-full rounded-2xl object-cover"
-                      />
-                    ))}
-                  </div>
-                )}
-                {section.caption && (
-                  <p className="mt-3 text-xs text-muted-foreground">{section.caption}</p>
-                )}
-              </div>
-            </Reveal>
-          ))}
-
-          {project.gallery.length > 0 && (
-            <Reveal className="border-t border-border py-12">
-              <h2 className="eyebrow">Gallery</h2>
-              <div className="mt-8 grid gap-6 sm:grid-cols-2">
-                {project.gallery.map((src) => (
-                  <img
-                    key={src}
-                    src={src}
-                    alt={`${project.title} detail`}
-                    loading="lazy"
-                    className="w-full rounded-2xl object-cover"
-                  />
-                ))}
-              </div>
-            </Reveal>
-          )}
-
-          <Block heading="Additional Notes" body={project.notes} />
+          <ImageSlider images={sliderImages} title={project.title} />
         </div>
 
         <nav className="shell flex items-stretch justify-between gap-6 border-t border-border py-14">

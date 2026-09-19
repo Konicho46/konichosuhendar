@@ -10,6 +10,16 @@ import { Button } from "@/components/ui/button";
 import { moveItem, normalizedOrder } from "@/lib/reorder";
 
 export const Route = createFileRoute("/admin/experience")({
+  head: () => ({
+    meta: [
+      { title: "Experience — Portfolio CMS" },
+      { name: "description", content: "Manage portfolio experience." },
+      { property: "og:title", content: "Experience — Portfolio CMS" },
+      { property: "og:description", content: "Manage portfolio experience." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary" },
+    ],
+  }),
   component: ExperienceAdmin,
 });
 
