@@ -4,7 +4,7 @@ import { PublicLayout } from "@/components/site/PublicLayout";
 import { ProjectCard } from "@/components/site/ProjectCard";
 import { Reveal } from "@/components/site/Reveal";
 import { Button } from "@/components/ui/button";
-import { publishedProjectsQuery } from "@/lib/portfolio";
+import { projectCategoriesQuery, publishedProjectsQuery } from "@/lib/portfolio";
 import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/work/")({
@@ -22,17 +22,23 @@ export const Route = createFileRoute("/work/")({
       { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
-  loader: ({ context }) => context.queryClient.ensureQueryData(publishedProjectsQuery),
+  loader: async ({ context }) => {
+    const [projects, categories] = await Promise.all([
+      context.queryClient.ensureQueryData(publishedProjectsQuery),
+      context.queryClient.ensureQueryData(projectCategoriesQuery),
+    ]);
+    return { projects, categories };
+  },
   component: Work,
 });
 
 function Work() {
-  const projects = Route.useLoaderData();
+  const { projects, categories: masterCategories } = Route.useLoaderData();
   const [filter, setFilter] = useState("All");
 
   const categories = useMemo(
-    () => ["All", ...Array.from(new Set(projects.map((p) => p.category)))],
-    [projects],
+    () => ["All", ...Array.from(new Set([...masterCategories.map((item) => item.name), ...projects.flatMap((project) => [project.category, ...project.tags])]))],
+    [masterCategories, projects],
   );
 
   const categoryCounts = useMemo(
