@@ -77,9 +77,9 @@ function Work() {
         </p>
       </section>
 
-      <div className="sticky top-16 z-30 border-y border-border/70 bg-background/95 backdrop-blur-md lg:hidden">
+      <div className="sticky top-16 z-30 max-w-full overflow-hidden border-y border-border/70 bg-background/95 backdrop-blur-md lg:hidden">
         <div
-          className="shell flex gap-2 overflow-x-auto py-3 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+          className="flex w-full max-w-full gap-2 overflow-x-auto px-6 py-3 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
           aria-label="Filter projects by category"
         >
           {categories.map((category) => (
