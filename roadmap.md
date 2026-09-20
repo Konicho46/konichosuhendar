@@ -17,4 +17,4 @@
 - [x] Replace case-study sections with an image slider
 - [x] Add manageable multi-select project categories
 - [x] Split Skills and Tools into tabs
-- [ ] Improve admin mobile layouts and verify
+- [x] Improve admin mobile layouts and verify
