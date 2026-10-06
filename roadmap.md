@@ -20,3 +20,10 @@
 - [x] Improve admin mobile layouts and verify
 - [x] Fix phone horizontal overflow (footer email)
 - [x] Add Google Search Console verification tag
+
+# Public portfolio redesign
+
+- [ ] Lock the new public visual direction
+- [ ] Redesign public navigation and homepage
+- [ ] Carry the visual system through About, Project, project detail, and Contact
+- [ ] Verify hover reveals and responsive layouts
