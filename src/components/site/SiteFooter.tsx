@@ -12,7 +12,7 @@ export function SiteFooter() {
           <p className="eyebrow">Available for select projects</p>
           <a
             href="mailto:nicholas.nathanael46@gmail.com"
-            className="display link-underline mt-3 block break-all text-2xl leading-tight sm:text-5xl"
+            className="display link-underline mt-3 block break-all text-xl leading-tight sm:text-5xl"
           >
             nicholas.nathanael46@gmail.com
           </a>

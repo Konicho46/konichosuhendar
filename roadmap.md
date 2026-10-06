@@ -18,3 +18,5 @@
 - [x] Add manageable multi-select project categories
 - [x] Split Skills and Tools into tabs
 - [x] Improve admin mobile layouts and verify
+- [x] Fix phone horizontal overflow (footer email)
+- [x] Add Google Search Console verification tag
