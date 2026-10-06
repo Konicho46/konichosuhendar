@@ -6,6 +6,7 @@ import {
   useRouter,
   HeadContent,
   Scripts,
+  type ErrorComponentProps,
 } from "@tanstack/react-router";
 import { useEffect, type ReactNode } from "react";
 
@@ -34,7 +35,7 @@ function NotFoundComponent() {
   );
 }
 
-function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
+function ErrorComponent({ error, reset }: ErrorComponentProps) {
   console.error(error);
   const router = useRouter();
   useEffect(() => {
@@ -83,6 +84,10 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         content: "Portfolio of Nathanael Suhendar, a UI/UX and product designer in Sidoarjo.",
       },
       { name: "author", content: "Nathanael Suhendar" },
+      {
+        name: "google-site-verification",
+        content: "QPd_iTCei62HAAyMyN8-8tLqgk3Zi4cE-gUriC7EOPs",
+      },
       { property: "og:title", content: "Nathanael Suhendar — Product Designer" },
       { property: "og:description", content: "Portfolio of Nathanael Suhendar, product designer." },
       { property: "og:type", content: "website" },
