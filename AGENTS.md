@@ -10,3 +10,4 @@
 <!-- LOVABLE:END -->
 
 - Keep public portfolio styling scoped under `.public-theme` so the admin CMS retains its independent interface; this allows visual redesigns without destabilizing content management.
+- Initialize Lenis only after the public layout mounts and destroy it on unmount or reduced-motion changes; smooth scrolling must never alter the CMS or native touch scrolling.

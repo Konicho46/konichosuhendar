@@ -246,6 +246,61 @@
   letter-spacing: 0;
 }
 
+/* The document scrollbar belongs to the public theme only while it is mounted. */
+html:has(.public-theme),
+.public-theme {
+  --scrollbar-thumb: oklch(0.7 0.18 240);
+  --scrollbar-thumb-hover: oklch(0.82 0.13 230);
+  --scrollbar-track: oklch(0.18 0.028 235);
+}
+
+html:has(.public-theme),
+.public-theme * {
+  scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track);
+  scrollbar-width: thin;
+}
+
+html:has(.public-theme)::-webkit-scrollbar,
+.public-theme ::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+html:has(.public-theme)::-webkit-scrollbar-track,
+.public-theme ::-webkit-scrollbar-track {
+  background: var(--scrollbar-track);
+}
+
+html:has(.public-theme)::-webkit-scrollbar-thumb,
+.public-theme ::-webkit-scrollbar-thumb {
+  background: var(--scrollbar-thumb);
+  border-radius: 4px;
+}
+
+html:has(.public-theme)::-webkit-scrollbar-thumb:hover,
+.public-theme ::-webkit-scrollbar-thumb:hover {
+  background: var(--scrollbar-thumb-hover);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html:has(.public-theme):not(.lenis) {
+    scroll-behavior: smooth;
+  }
+}
+
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto;
+}
+
+.lenis.lenis-stopped {
+  overflow: clip;
+}
+
 @utility site-shell {
   width: 100%;
   margin-inline: auto;
