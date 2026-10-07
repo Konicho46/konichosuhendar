@@ -35,7 +35,7 @@ export function PublicLayout({ children }: { children: ReactNode }) {
   }, []);
 
   return (
-    <div className="public-theme flex min-h-screen flex-col overflow-x-hidden bg-background text-foreground">
+    <div className="public-theme flex min-h-screen flex-col overflow-x-clip bg-background text-foreground">
       <SiteHeader />
       <main className="flex-1">{children}</main>
       <SiteFooter />
