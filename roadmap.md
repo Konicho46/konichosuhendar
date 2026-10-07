@@ -30,5 +30,5 @@
 
 # Public scrolling
 
-- [ ] Apply neon-blue public scrollbars and smooth scrolling, respecting reduced motion
-- [ ] Verify wheel scrolling and CMS isolation
+- [x] Apply neon-blue public scrollbars and smooth scrolling, respecting reduced motion
+- [x] Verify wheel scrolling and CMS isolation
