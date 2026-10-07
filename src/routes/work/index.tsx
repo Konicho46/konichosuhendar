@@ -90,7 +90,7 @@ function Work() {
               size="sm"
               aria-pressed={filter === category}
               onClick={() => setFilter(category)}
-              className="shrink-0 rounded-full shadow-none"
+              className="shrink-0 rounded-none shadow-none"
             >
               {category}
               <span className="text-[10px] opacity-65">{categoryCounts.get(category)}</span>
@@ -111,7 +111,7 @@ function Work() {
                 aria-pressed={filter === category}
                 onClick={() => setFilter(category)}
                 className={cn(
-                  "grid h-auto w-full grid-cols-[minmax(0,1fr)_auto] justify-start rounded-md px-3 py-3 text-left shadow-none",
+                  "grid h-auto w-full grid-cols-[minmax(0,1fr)_auto] justify-start rounded-none border-b border-dashed border-border px-3 py-3 text-left shadow-none",
                   filter === category
                     ? "bg-primary text-primary-foreground hover:bg-primary hover:text-primary-foreground"
                     : "text-muted-foreground hover:bg-secondary hover:text-foreground",
@@ -136,7 +136,7 @@ function Work() {
           </div>
 
           {visible.length === 0 ? (
-            <div className="rounded-lg border border-dashed border-border py-24 text-center">
+            <div className="border border-dashed border-border py-24 text-center">
               <p className="display text-3xl">Nothing here yet</p>
               <p className="mt-3 text-sm text-muted-foreground">
                 No projects match this category — try another filter.

@@ -59,7 +59,7 @@ function Block({ heading, body }: { heading: string; body: string }) {
   if (!body) return null;
   const items = body.split("\n").map((item) => item.trim()).filter(Boolean);
   return (
-    <Reveal className="grid gap-6 border-t border-border py-12 md:grid-cols-[1fr_1.6fr]">
+    <Reveal className="grid gap-6 border-t border-dashed border-border py-12 md:grid-cols-[1fr_1.6fr]">
       <h2 className="eyebrow pt-1">{heading}</h2>
       <ul className="max-w-2xl space-y-3">
         {items.map((item, index) => <li key={`${item}-${index}`} className="flex gap-3 text-lg leading-relaxed"><span className="text-accent" aria-hidden="true">—</span><span>{item}</span></li>)}
@@ -77,12 +77,12 @@ function ImageSlider({ images, title }: { images: string[]; title: string }) {
     setActive(next);
     track.current?.children.item(next)?.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "start" });
   };
-  return <Reveal className="border-t border-border py-12">
+  return <Reveal className="border-t border-dashed border-border py-12">
     <div className="mb-6 grid grid-cols-[minmax(0,1fr)_auto] items-center gap-4">
       <div><h2 className="eyebrow">Case study images</h2><p className="mt-2 text-sm text-muted-foreground">{active + 1} / {images.length}</p></div>
       {images.length > 1 && <div className="flex gap-2"><button type="button" aria-label="Previous image" className="grid h-10 w-10 place-items-center rounded-full border border-border" onClick={() => go(active - 1)}><ChevronLeft /></button><button type="button" aria-label="Next image" className="grid h-10 w-10 place-items-center rounded-full border border-border" onClick={() => go(active + 1)}><ChevronRight /></button></div>}
     </div>
-    <div ref={track} tabIndex={0} aria-label="Case study image slider" onKeyDown={(event) => { if (event.key === "ArrowLeft") go(active - 1); if (event.key === "ArrowRight") go(active + 1); }} onScroll={(event) => { const element = event.currentTarget; if (element.clientWidth) setActive(Math.round(element.scrollLeft / element.clientWidth)); }} className="flex snap-x snap-mandatory overflow-x-auto rounded-lg [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+    <div ref={track} tabIndex={0} aria-label="Case study image slider" onKeyDown={(event) => { if (event.key === "ArrowLeft") go(active - 1); if (event.key === "ArrowRight") go(active + 1); }} onScroll={(event) => { const element = event.currentTarget; if (element.clientWidth) setActive(Math.round(element.scrollLeft / element.clientWidth)); }} className="flex snap-x snap-mandatory overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
       {images.map((src, index) => <div key={`${src}-${index}`} className="aspect-[16/10] min-w-full snap-start bg-secondary"><img src={src} alt={`${title} case study ${index + 1}`} loading="lazy" className="h-full w-full object-contain" /></div>)}
     </div>
   </Reveal>;
@@ -116,14 +116,15 @@ function ProjectDetail() {
   return (
     <PublicLayout>
       <article>
-        <header className="shell pb-12 pt-16 lg:pt-24">
+        <header className="site-shell pb-12 pt-16 lg:pt-24">
           <Link
             to="/work"
             className="link-underline inline-flex items-center gap-2 text-sm text-muted-foreground"
           >
             <ArrowLeft className="h-4 w-4" /> Back to Work
           </Link>
-          <h1 className="display rise mt-8 max-w-5xl text-[clamp(2.8rem,9vw,7rem)]">
+          <p className="mono-label mt-8 text-accent">02 Project / {project.year}</p>
+          <h1 className="display rise mt-4 max-w-5xl text-[clamp(2.8rem,9vw,7rem)] uppercase">
             {project.title}
           </h1>
           <p className="rise mt-6 max-w-2xl text-xl leading-relaxed text-muted-foreground">
@@ -131,8 +132,8 @@ function ProjectDetail() {
           </p>
         </header>
 
-        <div className="shell">
-          <div className="aspect-[16/9] overflow-hidden rounded-3xl bg-secondary">
+        <div className="site-shell">
+          <div className="aspect-[16/9] overflow-hidden border border-dashed border-border bg-secondary">
             {project.hero_image_url ?? project.thumbnail_url ? (
               <img
                 src={project.hero_image_url ?? project.thumbnail_url ?? ""}
@@ -145,8 +146,8 @@ function ProjectDetail() {
           </div>
         </div>
 
-        <div className="shell">
-           <dl className="grid grid-cols-2 gap-8 border-t border-border py-12 md:grid-cols-4">
+        <div className="site-shell">
+           <dl className="grid grid-cols-2 gap-8 border-t border-dashed border-border py-12 md:grid-cols-4">
             <Meta label="Role" value={project.role} />
             <Meta label="Client" value={project.client} />
             <Meta label="Category" value={project.category} />
@@ -158,7 +159,7 @@ function ProjectDetail() {
               {project.tags.map((tag) => (
                 <span
                   key={tag}
-                  className="rounded-full border border-border px-3 py-1.5 text-xs text-muted-foreground"
+                  className="mono-label border border-border px-3 py-1.5 text-muted-foreground"
                 >
                   {tag}
                 </span>
@@ -175,7 +176,7 @@ function ProjectDetail() {
           <ImageSlider images={sliderImages} title={project.title} />
         </div>
 
-        <nav className="shell flex items-stretch justify-between gap-6 border-t border-border py-14">
+        <nav className="site-shell flex items-stretch justify-between gap-6 border-t border-dashed border-border py-14">
           {prev ? (
             <Link to="/work/$slug" params={{ slug: prev.slug }} className="group max-w-xs">
               <span className="eyebrow flex items-center gap-2">

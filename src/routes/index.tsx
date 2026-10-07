@@ -67,7 +67,7 @@ function Home() {
                 "I design digital products that feel obvious to use and quietly delightful to live with."}
             </p>
           </div>
-          <p className="mono-label text-muted-foreground">Located in<br /><span className=" gad text-accent">{profile?.location ?? "Sidoarjo, East Java, Indonesia"}</span></p>
+          <p className="mono-label text-muted-foreground">Located in<br /><span className="text-accent">{profile?.location ?? "Sidoarjo, East Java, Indonesia"}</span></p>
         </div>
       </section>
 
