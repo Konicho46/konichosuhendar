@@ -216,3 +216,52 @@
     transition-duration: 0.001ms !important;
   }
 }
+
+/* Public portfolio — Editorial Ink. Lexend temporarily stands in for the
+ * licensed ITC Avant Garde Gothic Pro files. */
+.public-theme {
+  --background: oklch(0.18 0.028 235);
+  --foreground: oklch(0.94 0.014 210);
+  --card: oklch(0.23 0.038 225);
+  --card-foreground: oklch(0.94 0.014 210);
+  --popover: oklch(0.23 0.038 225);
+  --popover-foreground: oklch(0.94 0.014 210);
+  --primary: oklch(0.79 0.105 205);
+  --primary-foreground: oklch(0.18 0.028 235);
+  --secondary: oklch(0.25 0.043 225);
+  --secondary-foreground: oklch(0.94 0.014 210);
+  --muted: oklch(0.25 0.043 225);
+  --muted-foreground: oklch(0.74 0.03 215);
+  --accent: oklch(0.79 0.105 205);
+  --accent-foreground: oklch(0.18 0.028 235);
+  --border: oklch(0.79 0.105 205 / 28%);
+  --input: oklch(0.79 0.105 205 / 38%);
+  --ring: oklch(0.79 0.105 205);
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+}
+
+.public-theme .display {
+  font-family: "ITC Avant Garde Gothic Pro", "Lexend", ui-sans-serif, sans-serif;
+  font-weight: 700;
+  letter-spacing: 0;
+}
+
+@utility site-shell {
+  width: 100%;
+  margin-inline: auto;
+  max-width: 96rem;
+  padding-inline: 1.25rem;
+
+  @media (min-width: 768px) {
+    padding-inline: 2rem;
+  }
+}
+
+@utility mono-label {
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+  font-size: 0.6875rem;
+  font-weight: 500;
+  letter-spacing: 0;
+  line-height: 1.4;
+  text-transform: uppercase;
+}
