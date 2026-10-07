@@ -26,4 +26,4 @@
 - [x] Lock the new public visual direction
 - [x] Redesign public navigation and homepage
 - [x] Carry the visual system through About, Project, project detail, and Contact
-- [ ] Verify hover reveals and responsive layouts
+- [x] Verify hover reveals and responsive layouts
