@@ -27,3 +27,8 @@
 - [x] Redesign public navigation and homepage
 - [x] Carry the visual system through About, Project, project detail, and Contact
 - [x] Verify hover reveals and responsive layouts
+
+# Public scrolling
+
+- [ ] Apply neon-blue public scrollbars and smooth scrolling, respecting reduced motion
+- [ ] Verify wheel scrolling and CMS isolation
