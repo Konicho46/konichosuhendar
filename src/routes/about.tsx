@@ -40,16 +40,16 @@ function About() {
 
   return (
     <PublicLayout>
-      <section className="shell pb-16 pt-20 lg:pt-28">
-        <p className="eyebrow rise">About</p>
-        <h1 className="display rise mt-5 max-w-4xl text-[clamp(2.5rem,7vw,5.5rem)]">
+      <section className="site-shell pb-16 pt-20 lg:pt-28">
+        <p className="mono-label rise text-accent">01 About</p>
+        <h1 className="display rise mt-5 max-w-5xl text-[clamp(2.5rem,7vw,6rem)] uppercase">
           {profile?.intro ?? "I design digital products that feel obvious to use."}
         </h1>
       </section>
 
-      <section className="shell grid gap-12 border-t border-border py-16 md:grid-cols-[1fr_1.4fr]">
+      <section className="site-shell grid gap-12 border-t border-dashed border-border py-16 md:grid-cols-[1fr_1.4fr]">
         <Reveal>
-          <div className="aspect-[4/5] overflow-hidden rounded-2xl bg-secondary">
+          <div className="aspect-[4/5] overflow-hidden bg-secondary">
             {profile?.profile_image_url ? (
               <img
                 src={profile.profile_image_url}
@@ -73,7 +73,7 @@ function About() {
         </Reveal>
       </section>
 
-      <section className="shell grid gap-12 border-t border-border py-16 md:grid-cols-[1fr_1.4fr] lg:py-24">
+      <section className="site-shell grid gap-12 border-t border-dashed border-border py-16 md:grid-cols-[1fr_1.4fr] lg:py-24">
         <p className="eyebrow">Career timeline</p>
         <ul className="divide-y divide-border">
           {experiences.map((exp, i) => (
@@ -93,7 +93,7 @@ function About() {
                   {exp.responsibilities.map((item) => (
                     <li
                       key={item}
-                      className="rounded-full border border-border px-3 py-1.5 text-xs text-muted-foreground"
+                      className="mono-label border border-border px-3 py-1.5 text-muted-foreground"
                     >
                       {item}
                     </li>
@@ -105,7 +105,7 @@ function About() {
         </ul>
       </section>
 
-      <section className="shell grid gap-12 border-t border-border py-16 md:grid-cols-[1fr_1.4fr] lg:py-24">
+      <section className="site-shell grid gap-12 border-t border-dashed border-border py-16 md:grid-cols-[1fr_1.4fr] lg:py-24">
         <p className="eyebrow">Capabilities & tools</p>
         <div>
           <ul className="divide-y divide-border">
@@ -120,7 +120,7 @@ function About() {
             {tools.map((tool) => (
               <span
                 key={tool.id}
-                className="rounded-full border border-border px-3 py-1.5 text-xs text-muted-foreground"
+                className="mono-label border border-border px-3 py-1.5 text-muted-foreground"
               >
                 {tool.name}
               </span>
@@ -129,14 +129,14 @@ function About() {
         </div>
       </section>
 
-      <section className="shell border-t border-border py-24 text-center">
+      <section className="site-shell border-t border-dashed border-border py-24">
         <Reveal>
           <h2 className="display mx-auto max-w-3xl text-[clamp(2.2rem,6vw,4.5rem)]">
             Have a product that deserves better?
           </h2>
           <Link
             to="/contact"
-            className="mt-10 inline-flex rounded-full bg-primary px-8 py-4 text-sm text-primary-foreground transition-transform duration-300 hover:-translate-y-0.5"
+            className="mono-label mt-10 inline-flex border border-accent bg-accent px-8 py-4 text-accent-foreground transition-colors hover:bg-foreground"
           >
             Let's Talk
           </Link>

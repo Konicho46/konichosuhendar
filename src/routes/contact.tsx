@@ -67,14 +67,14 @@ function Contact() {
   }
 
   const field =
-    "w-full rounded-xl border border-border bg-card px-4 py-3 text-sm outline-none transition-colors placeholder:text-muted-foreground/70 focus:border-foreground";
+    "w-full border border-border bg-card px-4 py-3 text-sm outline-none transition-colors placeholder:text-muted-foreground/70 focus:border-accent";
 
   return (
     <PublicLayout>
-      <section className="shell grid gap-16 pb-28 pt-20 md:grid-cols-2 lg:pt-28">
+      <section className="site-shell grid gap-16 pb-28 pt-20 md:grid-cols-2 lg:pt-28">
         <div>
-          <p className="eyebrow rise">Contact</p>
-          <h1 className="display rise mt-5 text-[clamp(2.5rem,7vw,5rem)]">
+          <p className="mono-label rise text-accent">03 Contact</p>
+          <h1 className="display rise mt-5 text-[clamp(2.5rem,7vw,5rem)] uppercase">
             Let's talk about your product.
           </h1>
           <p className="rise mt-6 max-w-sm leading-relaxed text-muted-foreground">
@@ -110,7 +110,7 @@ function Contact() {
           </dl>
         </div>
 
-        <form onSubmit={onSubmit} noValidate className="rounded-2xl border border-border p-6 sm:p-8">
+        <form onSubmit={onSubmit} noValidate className="border border-dashed border-border p-6 sm:p-8">
           <div className="space-y-5">
             <div>
               <label htmlFor="name" className="eyebrow">
@@ -161,7 +161,7 @@ function Contact() {
           <button
             type="submit"
             disabled={status === "sending"}
-            className="mt-8 w-full rounded-full bg-primary px-6 py-3.5 text-sm text-primary-foreground transition-transform duration-300 hover:-translate-y-0.5 disabled:opacity-60"
+            className="mono-label mt-8 w-full border border-accent bg-accent px-6 py-3.5 text-accent-foreground transition-colors hover:bg-foreground disabled:opacity-60"
           >
             {status === "sending" ? "Sending…" : "Send message"}
           </button>

@@ -1,5 +1,4 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { ArrowRight } from "lucide-react";
 import { PublicLayout } from "@/components/site/PublicLayout";
 import { ProjectCard } from "@/components/site/ProjectCard";
 import { Reveal } from "@/components/site/Reveal";
@@ -44,80 +43,48 @@ function Home() {
   const { projects, profile, experiences, skills } = Route.useLoaderData();
 
   const featured = projects.filter((p) => p.featured).slice(0, 2);
-  const rest = projects.filter((p) => !p.featured).slice(0, 2);
+  const selected = [...featured, ...projects.filter((p) => !p.featured)].slice(0, 6);
   const capabilities = skills.filter((s) => s.category !== "Tool");
   const tools = skills.filter((s) => s.category === "Tool");
 
   return (
     <PublicLayout>
-      {/* Hero */}
-      <section className="shell pb-20 pt-20 sm:pt-28 lg:pb-28 lg:pt-36">
-        <p className="eyebrow rise">{profile?.location ?? "Sidoarjo, East Java, Indonesia"}</p>
+      <section className="site-shell pb-16 pt-20 lg:pb-20 lg:pt-28">
+        <p className="mono-label rise text-accent">Product designer / portfolio 2026</p>
         <h1
-          className="display rise mt-6 text-[clamp(3rem,11vw,9rem)]"
+          className="display rise mt-6 max-w-6xl text-[clamp(3.25rem,10vw,9rem)] uppercase leading-[0.84]"
           style={{ animationDelay: "80ms" }}
         >
           {profile?.name ?? "Nathanael Suhendar"}
         </h1>
         <div
-          className="rise mt-8 flex flex-col gap-10 border-t border-border pt-8 md:flex-row md:items-start md:justify-between"
+          className="rise mt-10 flex flex-col gap-10 border-t border-dashed border-border pt-8 md:flex-row md:items-end md:justify-between"
           style={{ animationDelay: "160ms" }}
         >
-          <p className="text-xl sm:text-2xl">{profile?.headline ?? "UI/UX & Product Designer"}</p>
-          <div className="max-w-md">
-            <p className="text-base leading-relaxed text-muted-foreground">
+          <div className="max-w-lg">
+            <p className="text-base leading-relaxed text-muted-foreground sm:text-lg">
               {profile?.intro ??
                 "I design digital products that feel obvious to use and quietly delightful to live with."}
             </p>
-            <div className="mt-8 flex flex-wrap items-center gap-3">
-              <Link
-                to="/work"
-                className="group inline-flex items-center gap-2 rounded-full bg-primary px-6 py-3 text-sm text-primary-foreground transition-transform duration-300 hover:-translate-y-0.5"
-              >
-                View My Work
-                <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
-              </Link>
-              <Link
-                to="/contact"
-                className="inline-flex items-center rounded-full border border-foreground/25 px-6 py-3 text-sm transition-colors duration-300 hover:border-foreground"
-              >
-                Let's Talk
-              </Link>
-            </div>
           </div>
+          <p className="mono-label text-muted-foreground">Located in<br /><span className=" gad text-accent">{profile?.location ?? "Sidoarjo, East Java, Indonesia"}</span></p>
         </div>
       </section>
 
-      {/* Featured work */}
-      <section className="shell border-t border-border py-20 lg:py-28">
+      <section className="site-shell border-t border-dashed border-border py-14 lg:py-20">
         <Reveal className="flex items-baseline justify-between">
-          <h2 className="display text-4xl sm:text-5xl">Selected work</h2>
-          <Link to="/work" className="link-underline text-sm text-muted-foreground">
-            All projects
+          <h2 className="display text-3xl uppercase sm:text-5xl">Selected work</h2>
+          <Link to="/work" className="mono-label text-muted-foreground hover:text-accent">
+            All projects →
           </Link>
         </Reveal>
-
-        <div className="mt-14 grid gap-16 lg:grid-cols-2">
-          {featured.map((project, i) => (
-            <Reveal key={project.id} delay={i * 90}>
-              <ProjectCard project={project} large priority={i === 0} />
-            </Reveal>
-          ))}
+        <div className="mt-10 grid border-l border-t border-dashed border-border sm:grid-cols-2 lg:grid-cols-3">
+          {selected.map((project, i) => <Reveal key={project.id} delay={(i % 3) * 70}><ProjectCard project={project} priority={i < 3} /></Reveal>)}
         </div>
-
-        {rest.length > 0 && (
-          <div className="mt-16 grid gap-16 lg:grid-cols-2">
-            {rest.map((project, i) => (
-              <Reveal key={project.id} delay={i * 90}>
-                <ProjectCard project={project} />
-              </Reveal>
-            ))}
-          </div>
-        )}
       </section>
 
       {/* About */}
-      <section className="shell border-t border-border py-20 lg:py-28">
+      <section className="site-shell border-t border-dashed border-border py-20 lg:py-28">
         <Reveal className="grid gap-12 md:grid-cols-[1fr_1.4fr]">
           <p className="eyebrow">About</p>
           <div>
@@ -133,8 +100,7 @@ function Home() {
         </Reveal>
       </section>
 
-      {/* Experience */}
-      <section className="shell border-t border-border py-20 lg:py-28">
+      <section className="site-shell border-t border-dashed border-border py-20 lg:py-28">
         <Reveal className="grid gap-12 md:grid-cols-[1fr_1.4fr]">
           <p className="eyebrow">Selected experience</p>
           <ul className="divide-y divide-border">
@@ -151,8 +117,7 @@ function Home() {
         </Reveal>
       </section>
 
-      {/* Capabilities & tools */}
-      <section className="shell border-t border-border py-20 lg:py-28">
+      <section className="site-shell border-t border-dashed border-border py-20 lg:py-28">
         <Reveal className="grid gap-12 md:grid-cols-[1fr_1.4fr]">
           <p className="eyebrow">Capabilities</p>
           <div>
@@ -167,7 +132,7 @@ function Home() {
               {tools.map((tool) => (
                 <span
                   key={tool.id}
-                  className="rounded-full border border-border px-3 py-1.5 text-xs text-muted-foreground"
+                  className="mono-label border border-border px-3 py-1.5 text-muted-foreground"
                 >
                   {tool.name}
                 </span>
@@ -177,19 +142,17 @@ function Home() {
         </Reveal>
       </section>
 
-      {/* Contact CTA */}
-      <section className="shell border-t border-border py-24 text-center lg:py-32">
+      <section className="site-shell border-t border-dashed border-border py-24 lg:py-32">
         <Reveal>
-          <p className="eyebrow">Next project</p>
-          <h2 className="display mx-auto mt-6 max-w-4xl text-[clamp(2.5rem,7vw,5.5rem)]">
+          <p className="mono-label text-accent">Next project</p>
+          <h2 className="display mt-6 max-w-5xl text-[clamp(2.5rem,7vw,6rem)] uppercase">
             Let's make something worth using.
           </h2>
           <Link
             to="/contact"
-            className="group mt-10 inline-flex items-center gap-2 rounded-full bg-primary px-8 py-4 text-sm text-primary-foreground transition-transform duration-300 hover:-translate-y-0.5"
+            className="mono-label mt-10 inline-flex border border-accent bg-accent px-7 py-4 text-accent-foreground transition-colors hover:bg-foreground"
           >
-            Start a conversation
-            <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
+            Start a conversation →
           </Link>
         </Reveal>
       </section>

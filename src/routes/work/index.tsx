@@ -69,9 +69,9 @@ function Work() {
 
   return (
     <PublicLayout>
-      <section className="shell pb-10 pt-20 lg:pb-16 lg:pt-28">
-        <p className="eyebrow rise">Portfolio</p>
-        <h1 className="display rise mt-5 text-[clamp(3rem,9vw,7rem)]">Work</h1>
+      <section className="site-shell pb-10 pt-20 lg:pb-16 lg:pt-28">
+        <p className="mono-label rise text-accent">Project index</p>
+        <h1 className="display rise mt-5 text-[clamp(3rem,9vw,8rem)] uppercase">Project</h1>
         <p className="rise mt-6 max-w-lg text-muted-foreground">
           Case studies from complex systems, consumer mobile and everything in between.
         </p>
@@ -99,7 +99,7 @@ function Work() {
         </div>
       </div>
 
-      <section className="shell grid items-start gap-12 pb-28 pt-10 lg:grid-cols-[13rem_minmax(0,1fr)] lg:gap-10 lg:pt-0 xl:grid-cols-[15rem_minmax(0,1fr)] xl:gap-16">
+      <section className="site-shell grid items-start gap-12 pb-28 pt-10 lg:grid-cols-[13rem_minmax(0,1fr)] lg:gap-10 lg:pt-0 xl:grid-cols-[15rem_minmax(0,1fr)] xl:gap-16">
         <aside className="sticky top-24 hidden max-h-[calc(100vh-7rem)] overflow-y-auto pr-2 lg:block">
           <p className="eyebrow mb-5">Work index</p>
           <nav className="space-y-1" aria-label="Filter projects by category">
@@ -143,7 +143,7 @@ function Work() {
               </p>
             </div>
           ) : (
-            <div className="grid gap-x-8 gap-y-16 md:grid-cols-2">
+            <div className="grid border-l border-t border-dashed border-border md:grid-cols-2 xl:grid-cols-3">
               {visible.map((project, i) => (
                 <Reveal key={project.id} delay={(i % 2) * 90}>
                   <ProjectCard project={project} priority={i < 2} />
