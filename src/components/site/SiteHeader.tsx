@@ -3,9 +3,9 @@ import { useEffect, useState } from "react";
 import { Menu, X } from "lucide-react";
 
 const nav = [
-  { to: "/about", label: "01 About" },
-  { to: "/work", label: "02 Project" },
-  { to: "/contact", label: "03 Contact" },
+  { to: "/about", label: "About" },
+  { to: "/work", label: "Project" },
+  { to: "/contact", label: "Contact" },
 ] as const;
 
 export function SiteHeader() {
@@ -20,65 +20,80 @@ export function SiteHeader() {
   }, []);
 
   return (
-    <header
-      className={`sticky top-0 z-40 border-b border-dashed border-border bg-background/90 backdrop-blur-md transition-all duration-500 ease-out ${
-        scrolled ? "shadow-[0_10px_40px_-20px_rgba(0,0,0,0.8)]" : ""
-      }`}
-    >
-      <div
-        className={`site-shell flex items-center justify-between transition-[height] duration-500 ease-out ${
-          scrolled ? "h-14 md:h-16" : "h-[4.5rem]"
-        }`}
-      >
+    <header className="sticky top-0 z-40">
+      <div className="site-shell pt-3 md:pt-4">
         <div
-          className={`overflow-hidden transition-all duration-500 ease-out ${
-            scrolled
-              ? "pointer-events-none max-w-0 opacity-0 md:-translate-y-1"
-              : "max-w-xs opacity-100"
+          className={`relative flex items-center justify-between rounded-full border border-border bg-background/85 pl-5 pr-2 backdrop-blur-md transition-all duration-500 ease-out ${
+            scrolled ? "h-14 shadow-[0_14px_40px_-18px_rgba(0,0,0,0.85)]" : "h-16"
           }`}
         >
-          <Link to="/" className="display whitespace-nowrap text-lg uppercase">
-            Nathanael Suhendar
-            <span className="text-accent">.</span>
-          </Link>
-        </div>
-
-        <nav className="mono-label hidden items-center gap-10 md:flex">
-          {nav.map((item) => (
-            <Link
-              key={item.to}
-              to={item.to}
-              className="text-muted-foreground transition-colors hover:text-accent [&.active]:text-accent"
-            >
-              {item.label}
+          <div
+            className={`overflow-hidden transition-all duration-500 ease-out ${
+              scrolled
+                ? "pointer-events-none max-w-0 opacity-0"
+                : "max-w-xs opacity-100"
+            }`}
+          >
+            <Link to="/" className="display whitespace-nowrap text-lg uppercase">
+              Nathanael Suhendar
+              <span className="text-accent">.</span>
             </Link>
-          ))}
-        </nav>
+          </div>
 
-        <button
-          type="button"
-          aria-label={open ? "Close menu" : "Open menu"}
-          aria-expanded={open}
-          onClick={() => setOpen((v) => !v)}
-          className="-mr-2 inline-flex h-10 w-10 items-center justify-center border border-border text-foreground transition-colors hover:border-accent hover:text-accent md:hidden"
-        >
-          {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
-        </button>
-      </div>
-
-      {open && (
-        <nav className="border-t border-dashed border-border bg-background md:hidden">
-          <div className="site-shell flex flex-col py-4">
+          <nav className="mono-label absolute left-1/2 top-1/2 hidden -translate-x-1/2 -translate-y-1/2 items-center gap-10 md:flex">
             {nav.map((item) => (
               <Link
                 key={item.to}
                 to={item.to}
-                onClick={() => setOpen(false)}
-                className="mono-label border-b border-border py-4 last:border-0"
+                className="text-muted-foreground transition-colors hover:text-accent [&.active]:text-accent"
               >
                 {item.label}
               </Link>
             ))}
+          </nav>
+
+          <div className="flex items-center gap-2">
+            <Link
+              to="/contact"
+              className="mono-label hidden items-center rounded-full bg-accent px-5 py-2.5 text-accent-foreground transition-colors hover:bg-foreground hover:text-foreground md:inline-flex"
+            >
+              Reach Me
+            </Link>
+            <button
+              type="button"
+              aria-label={open ? "Close menu" : "Open menu"}
+              aria-expanded={open}
+              onClick={() => setOpen((v) => !v)}
+              className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-border text-foreground transition-colors hover:border-accent hover:text-accent md:hidden"
+            >
+              {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+            </button>
+          </div>
+        </div>
+      </div>
+
+      {open && (
+        <nav className="px-3 pt-2 md:hidden">
+          <div className="site-shell rounded-3xl border border-border bg-background/95 pt-2 backdrop-blur-md">
+            <div className="flex flex-col px-5 py-3">
+              {nav.map((item) => (
+                <Link
+                  key={item.to}
+                  to={item.to}
+                  onClick={() => setOpen(false)}
+                  className="mono-label border-b border-dashed border-border py-4 last:border-0"
+                >
+                  {item.label}
+                </Link>
+              ))}
+              <Link
+                to="/contact"
+                onClick={() => setOpen(false)}
+                className="mono-label my-4 inline-flex items-center justify-center rounded-full bg-accent px-5 py-3 text-accent-foreground transition-colors hover:bg-foreground hover:text-foreground"
+              >
+                Reach Me
+              </Link>
+            </div>
           </div>
         </nav>
       )}
