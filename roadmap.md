@@ -37,3 +37,10 @@
 
 - [x] Center About / Project / Contact without numbers in a floating pill navbar with a Reach Me button
 - [x] Verify logo hide-on-scroll, mobile menu, and responsive layouts
+
+# Single-page portfolio
+
+- [ ] Combine About Us, Project, Experience, and Contact on the home page
+- [ ] Add centered responsive project masonry and smooth section navigation
+- [ ] Preserve separate project details and redirect legacy section URLs
+- [ ] Verify navigation, project detail return, and narrow screens

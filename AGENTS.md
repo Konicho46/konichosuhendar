@@ -11,3 +11,5 @@
 
 - Keep public portfolio styling scoped under `.public-theme` so the admin CMS retains its independent interface; this allows visual redesigns without destabilizing content management.
 - Initialize Lenis only after the public layout mounts and destroy it on unmount or reduced-motion changes; smooth scrolling must never alter the CMS or native touch scrolling.
+- Keep public section content on the home route with hash navigation and redirect legacy section URLs to their anchors; preserve `/work/$slug` for case studies so published project links remain valid.
+- Keep the contact form and project catalogue in reusable public section modules; this preserves existing submission and filtering behavior while the home route owns page composition.
