@@ -32,3 +32,8 @@
 
 - [x] Apply neon-blue public scrollbars and smooth scrolling, respecting reduced motion
 - [x] Verify wheel scrolling and CMS isolation
+
+# Floating pill navbar
+
+- [x] Center About / Project / Contact without numbers in a floating pill navbar with a Reach Me button
+- [x] Verify logo hide-on-scroll, mobile menu, and responsive layouts
