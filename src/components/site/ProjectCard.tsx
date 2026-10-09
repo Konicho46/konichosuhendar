@@ -15,7 +15,7 @@ export function ProjectCard({
     <Link
       to="/work/$slug"
       params={{ slug: project.slug }}
-      className="group block h-full border-b border-r border-dashed border-border transition-colors hover:bg-secondary focus-visible:bg-secondary focus-visible:outline-none"
+      className="group block overflow-hidden rounded-md border border-border transition-colors hover:border-accent focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
       aria-label={`${project.title} — view case study`}
     >
       <div className="mono-label flex items-center justify-between gap-4 px-4 py-3 text-accent">
@@ -23,7 +23,7 @@ export function ProjectCard({
         <span className="truncate">{project.category}</span>
       </div>
       <div className="px-4 pb-4">
-        <h3 className="display min-h-12 text-xl uppercase transition-colors group-hover:text-accent group-focus-visible:text-accent sm:text-2xl">{project.title}</h3>
+        <h3 className="display text-xl leading-tight transition-colors group-hover:text-accent group-focus-visible:text-accent sm:text-2xl">{project.title}</h3>
       </div>
       <div className={cn("relative overflow-hidden bg-secondary", large ? "aspect-[4/3]" : "aspect-[4/5]")}>
         {project.thumbnail_url ?? project.hero_image_url ? (
@@ -39,7 +39,7 @@ export function ProjectCard({
           </div>
         )}
       </div>
-      <div className="grid overflow-hidden px-4 transition-[grid-template-rows] duration-500 ease-out [grid-template-rows:0fr] group-hover:[grid-template-rows:1fr] group-focus-visible:[grid-template-rows:1fr]">
+      <div className="project-card-summary overflow-hidden px-4">
         <div className="min-h-0">
           <p className="pt-4 text-sm leading-relaxed text-muted-foreground">
             {project.summary}
