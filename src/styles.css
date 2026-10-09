@@ -237,6 +237,7 @@
   --border: oklch(0.79 0.105 205 / 28%);
   --input: oklch(0.79 0.105 205 / 38%);
   --ring: oklch(0.79 0.105 205);
+  --floating-nav-shadow: 0 14px 40px -18px oklch(0.08 0.015 235 / 85%);
   font-family: "IBM Plex Mono", ui-monospace, monospace;
 }
 
@@ -319,4 +320,34 @@ html.lenis body {
   letter-spacing: 0;
   line-height: 1.4;
   text-transform: uppercase;
+}
+
+@utility portfolio-shell {
+  width: 100%;
+  max-width: 72rem;
+  margin-inline: auto;
+  padding-inline: 1.25rem;
+  @media (min-width: 768px) {
+    padding-inline: 2rem;
+  }
+}
+
+.public-theme .portfolio-section {
+  scroll-margin-top: 7rem;
+}
+
+.public-theme .project-card-summary {
+  display: grid;
+  grid-template-rows: 1fr;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .public-theme .project-card-summary {
+    grid-template-rows: 0fr;
+    transition: grid-template-rows 0.5s ease-out;
+  }
+  .public-theme .group:hover .project-card-summary,
+  .public-theme .group:focus-visible .project-card-summary {
+    grid-template-rows: 1fr;
+  }
 }

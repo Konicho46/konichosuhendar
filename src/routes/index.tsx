@@ -1,13 +1,8 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute } from "@tanstack/react-router";
 import { PublicLayout } from "@/components/site/PublicLayout";
-import { ProjectCard } from "@/components/site/ProjectCard";
-import { Reveal } from "@/components/site/Reveal";
-import {
-  experiencesQuery,
-  profileQuery,
-  publishedProjectsQuery,
-  skillsQuery,
-} from "@/lib/portfolio";
+import { ProjectsSection } from "@/components/site/ProjectsSection";
+import { ContactSection } from "@/components/site/ContactSection";
+import { experiencesQuery, profileQuery, publishedProjectsQuery, skillsQuery, socialLinksQuery, projectCategoriesQuery } from "@/lib/portfolio";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -28,134 +23,63 @@ export const Route = createFileRoute("/")({
     ],
   }),
   loader: async ({ context }) => {
-    const [projects, profile, experiences, skills] = await Promise.all([
+    const [projects, profile, experiences, skills, links, categories] = await Promise.all([
       context.queryClient.ensureQueryData(publishedProjectsQuery),
       context.queryClient.ensureQueryData(profileQuery),
       context.queryClient.ensureQueryData(experiencesQuery),
       context.queryClient.ensureQueryData(skillsQuery),
+      context.queryClient.ensureQueryData(socialLinksQuery),
+      context.queryClient.ensureQueryData(projectCategoriesQuery),
     ]);
-    return { projects, profile, experiences, skills };
+    return { projects, profile, experiences, skills, links, categories };
   },
   component: Home,
 });
 
 function Home() {
-  const { projects, profile, experiences, skills } = Route.useLoaderData();
-
-  const featured = projects.filter((p) => p.featured).slice(0, 2);
-  const selected = [...featured, ...projects.filter((p) => !p.featured)].slice(0, 6);
-  const capabilities = skills.filter((s) => s.category !== "Tool");
-  const tools = skills.filter((s) => s.category === "Tool");
+  const { projects, profile, experiences, skills, links, categories } = Route.useLoaderData();
+  const capabilities = skills.filter((skill) => skill.category !== "Tool");
+  const tools = skills.filter((skill) => skill.category === "Tool");
 
   return (
     <PublicLayout>
-      <section className="site-shell pb-16 pt-20 lg:pb-20 lg:pt-28">
-        <p className="mono-label rise text-accent">Product designer / portfolio 2026</p>
-        <h1
-          className="display rise mt-6 max-w-6xl text-[clamp(3.25rem,10vw,9rem)] uppercase leading-[0.84]"
-          style={{ animationDelay: "80ms" }}
-        >
-          {profile?.name ?? "Nathanael Suhendar"}
-        </h1>
-        <div
-          className="rise mt-10 flex flex-col gap-10 border-t border-dashed border-border pt-8 md:flex-row md:items-end md:justify-between"
-          style={{ animationDelay: "160ms" }}
-        >
-          <div className="max-w-lg">
-            <p className="text-base leading-relaxed text-muted-foreground sm:text-lg">
-              {profile?.intro ??
-                "I design digital products that feel obvious to use and quietly delightful to live with."}
-            </p>
-          </div>
-          <p className="mono-label text-muted-foreground">Located in<br /><span className="text-accent">{profile?.location ?? "Sidoarjo, East Java, Indonesia"}</span></p>
-        </div>
-      </section>
-
-      <section className="site-shell border-t border-dashed border-border py-14 lg:py-20">
-        <Reveal className="flex items-baseline justify-between">
-          <h2 className="display text-3xl uppercase sm:text-5xl">Selected work</h2>
-          <Link to="/work" className="mono-label text-muted-foreground hover:text-accent">
-            All projects →
-          </Link>
-        </Reveal>
-        <div className="mt-10 grid border-l border-t border-dashed border-border sm:grid-cols-2 lg:grid-cols-3">
-          {selected.map((project, i) => <Reveal key={project.id} delay={(i % 3) * 70}><ProjectCard project={project} priority={i < 3} /></Reveal>)}
-        </div>
-      </section>
-
-      {/* About */}
-      <section className="site-shell border-t border-dashed border-border py-20 lg:py-28">
-        <Reveal className="grid gap-12 md:grid-cols-[1fr_1.4fr]">
-          <p className="eyebrow">About</p>
+      <section id="about" aria-labelledby="about-title" className="portfolio-section portfolio-shell pb-16 pt-16 md:pb-24 md:pt-24">
+        <p className="mono-label text-accent">Product designer</p>
+        <h1 className="display mt-6 max-w-4xl text-5xl leading-tight sm:text-7xl lg:text-8xl">{profile?.name ?? "Nathanael Suhendar"}<span className="text-accent">.</span></h1>
+        <p className="mt-6 max-w-2xl text-base leading-relaxed text-muted-foreground sm:text-lg">{profile?.intro}</p>
+        <div className="mt-12 grid gap-8 border-t border-border pt-8 md:grid-cols-[1fr_2fr]">
           <div>
-            <p className="display text-3xl leading-tight sm:text-4xl">
-              {profile?.philosophy ??
-                "Good design is the shortest distance between a person and their intention."}
-            </p>
-            <p className="mt-8 max-w-xl leading-relaxed text-muted-foreground">{profile?.bio}</p>
-            <Link to="/about" className="link-underline mt-8 inline-block text-sm">
-              More about me
-            </Link>
+            <h2 id="about-title" className="display text-2xl sm:text-3xl">About Us</h2>
+            <p className="mono-label mt-4 text-muted-foreground">{profile?.location ?? "Sidoarjo, East Java, Indonesia"}</p>
+            {profile?.profile_image_url && <img src={profile.profile_image_url} alt={`${profile.name} portrait`} className="mt-6 aspect-[4/5] w-full max-w-60 rounded-md object-cover" />}
           </div>
-        </Reveal>
+          <div className="min-w-0">
+            <p className="max-w-2xl leading-relaxed text-muted-foreground">{profile?.bio}</p>
+            {profile?.philosophy && <p className="display mt-6 max-w-2xl text-xl leading-relaxed sm:text-2xl">{profile.philosophy}</p>}
+            {skills.length > 0 && <div className="mt-8">
+              <p className="mono-label text-muted-foreground">Capabilities & tools</p>
+              <p className="mt-3 text-sm leading-loose">{capabilities.map((skill) => skill.name).join(" / ")}</p>
+              <p className="mt-2 text-sm leading-loose text-muted-foreground">{tools.map((tool) => tool.name).join(" / ")}</p>
+            </div>}
+          </div>
+        </div>
       </section>
-
-      <section className="site-shell border-t border-dashed border-border py-20 lg:py-28">
-        <Reveal className="grid gap-12 md:grid-cols-[1fr_1.4fr]">
-          <p className="eyebrow">Selected experience</p>
-          <ul className="divide-y divide-border">
-            {experiences.map((exp) => (
-              <li key={exp.id} className="flex flex-wrap items-baseline gap-x-6 gap-y-1 py-5">
-                <span className="w-28 shrink-0 text-sm text-muted-foreground">
-                  {exp.start_date} — {exp.end_date}
-                </span>
-                <span className="text-lg">{exp.position}</span>
-                <span className="text-sm text-muted-foreground">{exp.company}</span>
-              </li>
-            ))}
+      <ProjectsSection projects={projects} categories={categories} />
+      <section id="experience" aria-labelledby="experience-title" className="portfolio-section border-t border-border py-16 md:py-24">
+        <div className="portfolio-shell grid gap-8 md:grid-cols-[1fr_2fr]">
+          <h2 id="experience-title" className="display text-3xl sm:text-4xl">Experience</h2>
+          <ul className="min-w-0 divide-y divide-border">
+            {experiences.map((experience) => <li key={experience.id} className="py-6 first:pt-0">
+              <div className="flex flex-wrap items-baseline justify-between gap-3"><h3 className="display text-xl leading-tight sm:text-2xl">{experience.position}</h3><span className="mono-label text-muted-foreground">{experience.start_date} — {experience.end_date || "Present"}</span></div>
+              <p className="mt-2 text-sm text-accent">{experience.company}</p>
+              {experience.description && <p className="mt-4 text-sm leading-relaxed text-muted-foreground">{experience.description}</p>}
+              {experience.responsibilities.length > 0 && <ul className="mt-4 list-disc space-y-2 pl-4 text-sm text-muted-foreground">{experience.responsibilities.map((item, index) => <li key={`${item}-${index}`}>{item}</li>)}</ul>}
+            </li>)}
+            {!experiences.length && <li className="text-sm text-muted-foreground">Experience will be added soon.</li>}
           </ul>
-        </Reveal>
+        </div>
       </section>
-
-      <section className="site-shell border-t border-dashed border-border py-20 lg:py-28">
-        <Reveal className="grid gap-12 md:grid-cols-[1fr_1.4fr]">
-          <p className="eyebrow">Capabilities</p>
-          <div>
-            <div className="flex flex-wrap gap-x-8 gap-y-3">
-              {capabilities.map((skill) => (
-                <span key={skill.id} className="display text-2xl sm:text-3xl">
-                  {skill.name}
-                </span>
-              ))}
-            </div>
-            <div className="mt-10 flex flex-wrap gap-2">
-              {tools.map((tool) => (
-                <span
-                  key={tool.id}
-                  className="mono-label border border-border px-3 py-1.5 text-muted-foreground"
-                >
-                  {tool.name}
-                </span>
-              ))}
-            </div>
-          </div>
-        </Reveal>
-      </section>
-
-      <section className="site-shell border-t border-dashed border-border py-24 lg:py-32">
-        <Reveal>
-          <p className="mono-label text-accent">Next project</p>
-          <h2 className="display mt-6 max-w-5xl text-[clamp(2.5rem,7vw,6rem)] uppercase">
-            Let's make something worth using.
-          </h2>
-          <Link
-            to="/contact"
-            className="mono-label mt-10 inline-flex border border-accent bg-accent px-7 py-4 text-accent-foreground transition-colors hover:bg-foreground"
-          >
-            Start a conversation →
-          </Link>
-        </Reveal>
-      </section>
+      <ContactSection profile={profile} links={links} />
     </PublicLayout>
   );
 }
