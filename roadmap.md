@@ -44,3 +44,9 @@
 - [x] Add centered responsive project masonry and smooth section navigation
 - [x] Preserve separate project details and redirect legacy section URLs
 - [x] Verify navigation, project detail return, and narrow screens
+
+# Compact projects and case-study tabs
+
+- [ ] Make masonry cards smaller and remove hover descriptions
+- [ ] Replace scrolling case-study blocks with six unnumbered interactive tabs
+- [ ] Verify image hover, tab switching, and mobile layouts
