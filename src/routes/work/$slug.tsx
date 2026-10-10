@@ -4,6 +4,7 @@ import { useRef, useState } from "react";
 import { ArrowLeft, ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
 import { PublicLayout } from "@/components/site/PublicLayout";
 import { Reveal } from "@/components/site/Reveal";
+import { Button } from "@/components/ui/button";
 import { publishedProjectsQuery, projectSectionsQuery, type Project } from "@/lib/portfolio";
 import { supabase } from "@/integrations/supabase/client";
 
@@ -117,14 +118,9 @@ function ProjectDetail() {
     <PublicLayout>
       <article>
         <header className="site-shell pb-12 pt-16 lg:pt-24">
-          <Link
-            to="/work"
-            className="link-underline inline-flex items-center gap-2 text-sm text-muted-foreground"
-          >
-            <ArrowLeft className="h-4 w-4" /> Back to Work
-          </Link>
-          <p className="mono-label mt-8 text-accent">02 Project / {project.year}</p>
-          <h1 className="display rise mt-4 max-w-5xl text-[clamp(2.8rem,9vw,7rem)] uppercase">
+          <Button asChild variant="outline" size="lg"><Link to="/" hash="project"><ArrowLeft /> Back to Home</Link></Button>
+          <p className="mono-label mt-8 text-accent">Project / {project.year}</p>
+          <h1 className="display rise mt-4 max-w-5xl break-words text-4xl leading-tight sm:text-6xl lg:text-7xl">
             {project.title}
           </h1>
           <p className="rise mt-6 max-w-2xl text-xl leading-relaxed text-muted-foreground">

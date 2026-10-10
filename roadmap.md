@@ -40,7 +40,7 @@
 
 # Single-page portfolio
 
-- [ ] Combine About Us, Project, Experience, and Contact on the home page
-- [ ] Add centered responsive project masonry and smooth section navigation
-- [ ] Preserve separate project details and redirect legacy section URLs
-- [ ] Verify navigation, project detail return, and narrow screens
+- [x] Combine About Us, Project, Experience, and Contact on the home page
+- [x] Add centered responsive project masonry and smooth section navigation
+- [x] Preserve separate project details and redirect legacy section URLs
+- [x] Verify navigation, project detail return, and narrow screens
