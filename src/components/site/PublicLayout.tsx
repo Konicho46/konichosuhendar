@@ -7,10 +7,20 @@ export function PublicLayout({ children }: { children: ReactNode }) {
     const motionPreference = window.matchMedia("(prefers-reduced-motion: reduce)");
     let disposed = false;
     let destroyScroll: (() => void) | undefined;
+    let scrollToSection: ((target: HTMLElement) => void) | undefined;
+    const onSectionNavigation = (event: Event) => {
+      const hash = (event as CustomEvent<string>).detail;
+      const target = document.getElementById(hash);
+      if (!target) return;
+      if (scrollToSection) scrollToSection(target);
+      else window.scrollTo({ top: Math.max(0, target.getBoundingClientRect().top + window.scrollY - 104), behavior: motionPreference.matches ? "instant" : "smooth" });
+    };
+    window.addEventListener("portfolio:scroll", onSectionNavigation);
 
     const updateScroll = async () => {
       destroyScroll?.();
       destroyScroll = undefined;
+      scrollToSection = undefined;
       if (motionPreference.matches || disposed) return;
       const { default: Lenis } = await import("lenis");
       if (motionPreference.matches || disposed || destroyScroll) return;
@@ -23,6 +33,7 @@ export function PublicLayout({ children }: { children: ReactNode }) {
         lerp: 0.1,
       });
       destroyScroll = () => scroll.destroy();
+      scrollToSection = (target) => scroll.scrollTo(target, { offset: -104, duration: 1.1 });
     };
 
     void updateScroll();
@@ -30,6 +41,7 @@ export function PublicLayout({ children }: { children: ReactNode }) {
     return () => {
       disposed = true;
       motionPreference.removeEventListener("change", updateScroll);
+      window.removeEventListener("portfolio:scroll", onSectionNavigation);
       destroyScroll?.();
     };
   }, []);

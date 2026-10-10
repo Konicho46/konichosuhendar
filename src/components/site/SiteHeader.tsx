@@ -22,8 +22,7 @@ export function SiteHeader() {
     if (!section) return;
     event.preventDefault();
     window.history.replaceState(window.history.state, "", `/#${hash}`);
-    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    window.scrollTo({ top: section.getBoundingClientRect().top + window.scrollY - 104, behavior: reduceMotion ? "instant" : "smooth" });
+    window.dispatchEvent(new CustomEvent("portfolio:scroll", { detail: hash }));
   };
 
   useEffect(() => {
