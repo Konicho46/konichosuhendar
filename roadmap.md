@@ -47,6 +47,6 @@
 
 # Compact projects and case-study tabs
 
-- [ ] Make masonry cards smaller and remove hover descriptions
-- [ ] Replace scrolling case-study blocks with six unnumbered interactive tabs
-- [ ] Verify image hover, tab switching, and mobile layouts
+- [x] Make masonry cards smaller and remove hover descriptions
+- [x] Replace scrolling case-study blocks with six unnumbered interactive tabs
+- [x] Verify image hover, tab switching, and mobile layouts
