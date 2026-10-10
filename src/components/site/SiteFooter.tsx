@@ -7,12 +7,12 @@ export function SiteFooter() {
 
   return (
     <footer className="border-t border-dashed border-border py-10">
-      <div className="site-shell flex flex-col gap-10 md:flex-row md:items-end md:justify-between">
+      <div className="portfolio-shell flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
         <div>
           <p className="mono-label text-accent">Available for select projects</p>
           <a
             href="mailto:nicholas.nathanael46@gmail.com"
-            className="display link-underline mt-3 block break-all text-xl uppercase leading-tight sm:text-4xl"
+            className="link-underline mt-3 block break-all text-sm leading-tight sm:text-base"
           >
             nicholas.nathanael46@gmail.com
           </a>
