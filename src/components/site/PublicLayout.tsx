@@ -26,14 +26,17 @@ export function PublicLayout({ children }: { children: ReactNode }) {
       if (motionPreference.matches || disposed || destroyScroll) return;
       const scroll = new Lenis({
         autoRaf: true,
-        anchors: true,
+        anchors: false,
         allowNestedScroll: true,
         smoothWheel: true,
         syncTouch: false,
         lerp: 0.1,
       });
       destroyScroll = () => scroll.destroy();
-      scrollToSection = (target) => scroll.scrollTo(target, { offset: -104, duration: 1.1 });
+      scrollToSection = (target) => {
+        scroll.resize();
+        scroll.scrollTo(target, { offset: -104, duration: 1.1, lerp: 0, force: true });
+      };
     };
 
     void updateScroll();
