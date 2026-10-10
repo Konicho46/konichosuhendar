@@ -35,7 +35,7 @@ export function PublicLayout({ children }: { children: ReactNode }) {
       destroyScroll = () => scroll.destroy();
       scrollToSection = (target) => {
         scroll.resize();
-        scroll.scrollTo(target, { offset: -104, duration: 1.1, lerp: 0, force: true });
+        scroll.scrollTo(target, { duration: 1.1, lerp: 0, force: true });
       };
     };
 
