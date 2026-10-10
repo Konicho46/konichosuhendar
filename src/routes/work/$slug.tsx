@@ -137,10 +137,10 @@ function ProjectDetail() {
         <Tabs key={project.id} defaultValue="overview" className="portfolio-shell pb-8">
           <div className="max-w-full overflow-x-auto border-b border-border" data-lenis-prevent>
             <TabsList aria-label="Case study stages" className="h-auto min-w-full justify-start gap-1 rounded-none bg-transparent p-0">
-              {[
+              {([
                 ["overview", "Overview"], ["problem", "Problem"], ["goals", "Goals"],
                 ["research", "Research & Discovery"], ["process", "Design Process"], ["outcome", "Outcome & Impact"],
-              ].map(([value, label]) => <TabsTrigger key={value} value={value} className="shrink-0 rounded-none border-b-2 border-transparent px-3 py-4 text-xs data-[state=active]:border-accent data-[state=active]:bg-transparent data-[state=active]:text-accent data-[state=active]:shadow-none sm:text-sm">{label}</TabsTrigger>)}
+              ] as const).map(([value, label]) => <TabsTrigger key={value} value={value} className="shrink-0 rounded-none border-b-2 border-transparent px-3 py-4 text-xs data-[state=active]:border-accent data-[state=active]:bg-transparent data-[state=active]:text-accent data-[state=active]:shadow-none sm:text-sm">{label}</TabsTrigger>)}
             </TabsList>
           </div>
           <TabsContent value="overview" className="mt-0 min-h-64">
