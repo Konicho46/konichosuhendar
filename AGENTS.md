@@ -13,3 +13,4 @@
 - Initialize Lenis only after the public layout mounts and destroy it on unmount or reduced-motion changes; smooth scrolling must never alter the CMS or native touch scrolling.
 - Keep public section content on the home route with hash navigation and redirect legacy section URLs to their anchors; preserve `/work/$slug` for case studies so published project links remain valid.
 - Keep the contact form and project catalogue in reusable public section modules; this preserves existing submission and filtering behavior while the home route owns page composition.
+- Render case-study stages with the shared accessible Tabs components and keep the image gallery within Design Process; this avoids stacking inactive content and preserves keyboard navigation without changing CMS data.

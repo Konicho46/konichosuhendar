@@ -5,6 +5,7 @@ import { ArrowLeft, ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
 import { PublicLayout } from "@/components/site/PublicLayout";
 import { Reveal } from "@/components/site/Reveal";
 import { Button } from "@/components/ui/button";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { publishedProjectsQuery, projectSectionsQuery, type Project } from "@/lib/portfolio";
 import { supabase } from "@/integrations/supabase/client";
 
@@ -41,6 +42,10 @@ export const Route = createFileRoute("/work/$slug")({
       { property: "og:description", content: loaderData?.summary ?? "" },
       { property: "og:type", content: "article" },
       { name: "twitter:card", content: "summary_large_image" },
+      ...((loaderData?.project.hero_image_url ?? loaderData?.project.thumbnail_url)?.startsWith("https://") ? [
+        { property: "og:image", content: loaderData?.project.hero_image_url ?? loaderData?.project.thumbnail_url ?? "" },
+        { name: "twitter:image", content: loaderData?.project.hero_image_url ?? loaderData?.project.thumbnail_url ?? "" },
+      ] : []),
     ],
   }),
   component: ProjectDetail,
@@ -57,15 +62,16 @@ function Meta({ label, value }: { label: string; value: string }) {
 }
 
 function Block({ heading, body }: { heading: string; body: string }) {
-  if (!body) return null;
   const items = body.split("\n").map((item) => item.trim()).filter(Boolean);
   return (
-    <Reveal className="grid gap-6 border-t border-dashed border-border py-12 md:grid-cols-[1fr_1.6fr]">
-      <h2 className="eyebrow pt-1">{heading}</h2>
+    <section className="grid gap-6 py-8 md:grid-cols-[1fr_1.6fr]">
+      <h2 className="display text-2xl">{heading}</h2>
+      {items.length ? (
       <ul className="max-w-2xl space-y-3">
         {items.map((item, index) => <li key={`${item}-${index}`} className="flex gap-3 text-lg leading-relaxed"><span className="text-accent" aria-hidden="true">—</span><span>{item}</span></li>)}
       </ul>
-    </Reveal>
+      ) : <p className="text-muted-foreground">Details coming soon.</p>}
+    </section>
   );
 }
 
@@ -81,7 +87,7 @@ function ImageSlider({ images, title }: { images: string[]; title: string }) {
   return <Reveal className="border-t border-dashed border-border py-12">
     <div className="mb-6 grid grid-cols-[minmax(0,1fr)_auto] items-center gap-4">
       <div><h2 className="eyebrow">Case study images</h2><p className="mt-2 text-sm text-muted-foreground">{active + 1} / {images.length}</p></div>
-      {images.length > 1 && <div className="flex gap-2"><button type="button" aria-label="Previous image" className="grid h-10 w-10 place-items-center rounded-full border border-border" onClick={() => go(active - 1)}><ChevronLeft /></button><button type="button" aria-label="Next image" className="grid h-10 w-10 place-items-center rounded-full border border-border" onClick={() => go(active + 1)}><ChevronRight /></button></div>}
+      {images.length > 1 && <div className="flex gap-2"><Button type="button" variant="outline" size="icon" aria-label="Previous image" onClick={() => go(active - 1)}><ChevronLeft /></Button><Button type="button" variant="outline" size="icon" aria-label="Next image" onClick={() => go(active + 1)}><ChevronRight /></Button></div>}
     </div>
     <div ref={track} tabIndex={0} aria-label="Case study image slider" onKeyDown={(event) => { if (event.key === "ArrowLeft") go(active - 1); if (event.key === "ArrowRight") go(active + 1); }} onScroll={(event) => { const element = event.currentTarget; if (element.clientWidth) setActive(Math.round(element.scrollLeft / element.clientWidth)); }} className="flex snap-x snap-mandatory overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
       {images.map((src, index) => <div key={`${src}-${index}`} className="aspect-[16/10] min-w-full snap-start bg-secondary"><img src={src} alt={`${title} case study ${index + 1}`} loading="lazy" className="h-full w-full object-contain" /></div>)}
@@ -117,10 +123,10 @@ function ProjectDetail() {
   return (
     <PublicLayout>
       <article>
-        <header className="site-shell pb-12 pt-16 lg:pt-24">
+        <header className="portfolio-shell pb-8 pt-10 lg:pt-12">
           <Button asChild variant="outline" size="lg"><Link to="/" hash="project"><ArrowLeft /> Back to Home</Link></Button>
           <p className="mono-label mt-8 text-accent">Project / {project.year}</p>
-          <h1 className="display rise mt-4 max-w-5xl break-words text-4xl leading-tight sm:text-6xl lg:text-7xl">
+          <h1 className="display rise mt-4 max-w-5xl break-words text-3xl leading-tight sm:text-5xl lg:text-6xl">
             {project.title}
           </h1>
           <p className="rise mt-6 max-w-2xl text-xl leading-relaxed text-muted-foreground">
@@ -128,7 +134,17 @@ function ProjectDetail() {
           </p>
         </header>
 
-        <div className="site-shell">
+        <Tabs key={project.id} defaultValue="overview" className="portfolio-shell pb-8">
+          <div className="max-w-full overflow-x-auto border-b border-border" data-lenis-prevent>
+            <TabsList aria-label="Case study stages" className="h-auto min-w-full justify-start gap-1 rounded-none bg-transparent p-0">
+              {([
+                ["overview", "Overview"], ["problem", "Problem"], ["goals", "Goals"],
+                ["research", "Research & Discovery"], ["process", "Design Process"], ["outcome", "Outcome & Impact"],
+              ] as const).map(([value, label]) => <TabsTrigger key={value} value={value} className="shrink-0 rounded-none border-b-2 border-transparent px-3 py-4 text-xs data-[state=active]:border-accent data-[state=active]:bg-transparent data-[state=active]:text-accent data-[state=active]:shadow-none sm:text-sm">{label}</TabsTrigger>)}
+            </TabsList>
+          </div>
+          <TabsContent value="overview" className="mt-0 min-h-64">
+          <Block heading="Overview" body={project.description} />
           <div className="aspect-[16/9] overflow-hidden border border-dashed border-border bg-secondary">
             {project.hero_image_url ?? project.thumbnail_url ? (
               <img
@@ -140,9 +156,6 @@ function ProjectDetail() {
               <div className="h-full w-full animate-pulse bg-muted" aria-hidden="true" />
             )}
           </div>
-        </div>
-
-        <div className="site-shell">
            <dl className="grid grid-cols-2 gap-8 border-t border-dashed border-border py-12 md:grid-cols-4">
             <Meta label="Role" value={project.role} />
             <Meta label="Client" value={project.client} />
@@ -163,16 +176,15 @@ function ProjectDetail() {
             </div>
           )}
 
-          <Block heading="Overview" body={project.description} />
-          <Block heading="Problem" body={project.problem} />
-          <Block heading="Goals" body={project.goals} />
-          <Block heading="Research & Discovery" body={project.research} />
-          <Block heading="Design Process" body={project.design_process} />
-          <Block heading="Outcome & Impact" body={project.outcome} />
-          <ImageSlider images={sliderImages} title={project.title} />
-        </div>
+          </TabsContent>
+          <TabsContent value="problem" className="mt-0 min-h-64"><Block heading="Problem" body={project.problem} /></TabsContent>
+          <TabsContent value="goals" className="mt-0 min-h-64"><Block heading="Goals" body={project.goals} /></TabsContent>
+          <TabsContent value="research" className="mt-0 min-h-64"><Block heading="Research & Discovery" body={project.research} /></TabsContent>
+          <TabsContent value="process" className="mt-0 min-h-64"><Block heading="Design Process" body={project.design_process} /><ImageSlider images={sliderImages} title={project.title} /></TabsContent>
+          <TabsContent value="outcome" className="mt-0 min-h-64"><Block heading="Outcome & Impact" body={project.outcome} /></TabsContent>
+        </Tabs>
 
-        <nav className="site-shell flex items-stretch justify-between gap-6 border-t border-dashed border-border py-14">
+        <nav className="portfolio-shell flex items-stretch justify-between gap-6 border-t border-dashed border-border py-14">
           {prev ? (
             <Link to="/work/$slug" params={{ slug: prev.slug }} className="group max-w-xs">
               <span className="eyebrow flex items-center gap-2">

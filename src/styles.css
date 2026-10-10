@@ -336,18 +336,3 @@ html.lenis body {
   scroll-margin-top: 7rem;
 }
 
-.public-theme .project-card-summary {
-  display: grid;
-  grid-template-rows: 1fr;
-}
-
-@media (hover: hover) and (pointer: fine) {
-  .public-theme .project-card-summary {
-    grid-template-rows: 0fr;
-    transition: grid-template-rows 0.5s ease-out;
-  }
-  .public-theme .group:hover .project-card-summary,
-  .public-theme .group:focus-visible .project-card-summary {
-    grid-template-rows: 1fr;
-  }
-}
