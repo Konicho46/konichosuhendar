@@ -50,3 +50,9 @@
 - [x] Make masonry cards smaller and remove hover descriptions
 - [x] Replace scrolling case-study blocks with six unnumbered interactive tabs
 - [x] Verify image hover, tab switching, and mobile layouts
+
+# Project detail polish and favicon
+
+- [x] Place project title and summary beside the main image on desktop
+- [x] Add soft tab-content transitions respecting reduced motion
+- [x] Replace the default favicon with the supplied logo and verify

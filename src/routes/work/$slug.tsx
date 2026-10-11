@@ -125,16 +125,25 @@ function ProjectDetail() {
       <article>
         <header className="portfolio-shell pb-8 pt-10 lg:pt-12">
           <Button asChild variant="outline" size="lg"><Link to="/" hash="project"><ArrowLeft /> Back to Home</Link></Button>
-          <p className="mono-label mt-8 text-accent">Project / {project.year}</p>
-          <h1 className="display rise mt-4 max-w-5xl break-words text-3xl leading-tight sm:text-5xl lg:text-6xl">
+          <div className="mt-8 grid items-center gap-8 lg:grid-cols-2 lg:gap-12">
+          <div className="min-w-0">
+          <p className="mono-label text-accent">Project / {project.year}</p>
+          <h1 className="display rise mt-4 break-words text-3xl leading-tight sm:text-5xl lg:text-5xl">
             {project.title}
           </h1>
           <p className="rise mt-6 max-w-2xl text-xl leading-relaxed text-muted-foreground">
             {project.summary}
           </p>
+          </div>
+          <div className="aspect-[4/3] overflow-hidden bg-secondary">
+            {project.hero_image_url ?? project.thumbnail_url ? (
+              <img src={project.hero_image_url ?? project.thumbnail_url ?? ""} alt={`${project.title} hero`} className="h-full w-full object-contain" fetchPriority="high" />
+            ) : <div className="h-full w-full bg-muted" aria-hidden="true" />}
+          </div>
+          </div>
         </header>
 
-        <Tabs key={project.id} defaultValue="overview" className="portfolio-shell pb-8">
+        <Tabs key={project.id} defaultValue="overview" className="case-study-tabs portfolio-shell pb-8">
           <div className="max-w-full overflow-x-auto border-b border-border" data-lenis-prevent>
             <TabsList aria-label="Case study stages" className="h-auto min-w-full justify-start gap-1 rounded-none bg-transparent p-0">
               {([
@@ -145,17 +154,6 @@ function ProjectDetail() {
           </div>
           <TabsContent value="overview" className="mt-0 min-h-64">
           <Block heading="Overview" body={project.description} />
-          <div className="aspect-[16/9] overflow-hidden border border-dashed border-border bg-secondary">
-            {project.hero_image_url ?? project.thumbnail_url ? (
-              <img
-                src={project.hero_image_url ?? project.thumbnail_url ?? ""}
-                alt={`${project.title} hero`}
-                className="h-full w-full object-cover"
-              />
-            ) : (
-              <div className="h-full w-full animate-pulse bg-muted" aria-hidden="true" />
-            )}
-          </div>
            <dl className="grid grid-cols-2 gap-8 border-t border-dashed border-border py-12 md:grid-cols-4">
             <Meta label="Role" value={project.role} />
             <Meta label="Client" value={project.client} />
