@@ -56,3 +56,9 @@
 - [x] Place project title and summary beside the main image on desktop
 - [x] Add soft tab-content transitions respecting reduced motion
 - [x] Replace the default favicon with the supplied logo and verify
+
+# Resume button
+
+- [x] Host the supplied CV and add an interactive View Resume button in the hero
+- [x] Verify the button link, hover lift, and mobile layout
+

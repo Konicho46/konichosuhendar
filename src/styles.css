@@ -336,6 +336,23 @@ html.lenis body {
   scroll-margin-top: 7rem;
 }
 
+/* Resume call-to-action — lifts and glows on hover. */
+.public-theme .resume-cta {
+  transition:
+    transform 0.3s cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 0.3s ease,
+    background-color 0.3s ease;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .public-theme .resume-cta:hover,
+  .public-theme .resume-cta:focus-visible {
+    transform: translateY(-2px);
+    box-shadow: 0 14px 34px -14px var(--accent);
+  }
+}
+
+
 @media (prefers-reduced-motion: no-preference) {
   .public-theme .case-study-tabs [role="tabpanel"][data-state="active"] {
     animation: case-study-enter 320ms cubic-bezier(0.22, 1, 0.36, 1) both;
