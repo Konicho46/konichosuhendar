@@ -53,6 +53,6 @@
 
 # Project detail polish and favicon
 
-- [ ] Place project title and summary beside the main image on desktop
-- [ ] Add soft tab-content transitions respecting reduced motion
-- [ ] Replace the default favicon with the supplied logo and verify
+- [x] Place project title and summary beside the main image on desktop
+- [x] Add soft tab-content transitions respecting reduced motion
+- [x] Replace the default favicon with the supplied logo and verify
