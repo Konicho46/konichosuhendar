@@ -1,8 +1,12 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { ArrowUpRight, FileText } from "lucide-react";
 import { PublicLayout } from "@/components/site/PublicLayout";
 import { ProjectsSection } from "@/components/site/ProjectsSection";
 import { ContactSection } from "@/components/site/ContactSection";
+import { Button } from "@/components/ui/button";
+import resumeAsset from "@/assets/ENG_CV_Nicholas_Nathanael_Suhendar.pdf.asset.json";
 import { experiencesQuery, profileQuery, publishedProjectsQuery, skillsQuery, socialLinksQuery, projectCategoriesQuery } from "@/lib/portfolio";
+
 
 export const Route = createFileRoute("/")({
   head: () => ({
