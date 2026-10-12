@@ -135,11 +135,19 @@ function ProjectDetail() {
             {project.summary}
           </p>
           </div>
-          <div className="aspect-[4/3] overflow-hidden bg-secondary">
-            {project.hero_image_url ?? project.thumbnail_url ? (
-              <img src={project.hero_image_url ?? project.thumbnail_url ?? ""} alt={`${project.title} hero`} className="h-full w-full object-contain" fetchPriority="high" />
-            ) : <div className="h-full w-full bg-muted" aria-hidden="true" />}
-          </div>
+          {(() => {
+            const imageSrc = project.hero_image_url ?? project.thumbnail_url;
+            const media = imageSrc ? (
+              <img src={imageSrc} alt={`${project.title} hero`} className="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-105 motion-reduce:transition-none" fetchPriority="high" />
+            ) : <div className="h-full w-full bg-muted" aria-hidden="true" />;
+            return project.live_url ? (
+              <a href={project.live_url} target="_blank" rel="noopener noreferrer" aria-label={`Open live website for ${project.title}`} className="group block aspect-[4/3] overflow-hidden bg-secondary">
+                {media}
+              </a>
+            ) : (
+              <div className="group aspect-[4/3] overflow-hidden bg-secondary">{media}</div>
+            );
+          })()}
           </div>
         </header>
 
