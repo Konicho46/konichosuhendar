@@ -171,13 +171,20 @@ function ProjectDetail() {
           </div>
         </header>
 
-        <Tabs key={project.id} defaultValue="overview" className="case-study-tabs portfolio-shell pb-8">
+        <Tabs key={project.id} value={activeTab} onValueChange={setActiveTab} className="case-study-tabs portfolio-shell pb-8">
           <div className="max-w-full overflow-x-auto border-b border-border" data-lenis-prevent>
-            <TabsList aria-label="Case study stages" className="h-auto min-w-full justify-start gap-1 rounded-none bg-transparent p-0">
+            <TabsList ref={tabsListRef} aria-label="Case study stages" className="relative h-auto min-w-full justify-start gap-1 rounded-none bg-transparent p-0">
               {([
                 ["overview", "Overview"], ["problem", "Problem"], ["goals", "Goals"],
                 ["research", "Research & Discovery"], ["process", "Design Process"], ["outcome", "Outcome & Impact"],
-              ] as const).map(([value, label]) => <TabsTrigger key={value} value={value} className="shrink-0 rounded-none border-b-2 border-transparent px-3 py-4 text-xs data-[state=active]:border-accent data-[state=active]:bg-transparent data-[state=active]:text-accent data-[state=active]:shadow-none sm:text-sm">{label}</TabsTrigger>)}
+              ] as const).map(([value, label]) => <TabsTrigger key={value} value={value} data-value={value} className="shrink-0 rounded-none px-3 py-4 text-xs data-[state=active]:bg-transparent data-[state=active]:text-accent data-[state=active]:shadow-none sm:text-sm">{label}</TabsTrigger>)}
+              {indicator && (
+                <span
+                  aria-hidden="true"
+                  className="pointer-events-none absolute bottom-0 h-0.5 bg-accent transition-[left,width] duration-300 ease-out motion-reduce:transition-none"
+                  style={{ left: `${indicator.left}px`, width: `${indicator.width}px` }}
+                />
+              )}
             </TabsList>
           </div>
           <TabsContent value="overview" className="mt-0 min-h-64">
