@@ -1,6 +1,6 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { queryOptions, useQuery } from "@tanstack/react-query";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { ArrowLeft, ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
 import { PublicLayout } from "@/components/site/PublicLayout";
 import { Reveal } from "@/components/site/Reveal";
@@ -98,6 +98,26 @@ function ImageSlider({ images, title }: { images: string[]; title: string }) {
 function ProjectDetail() {
   const { slug } = Route.useParams();
   const loaderData = Route.useLoaderData();
+  const [activeTab, setActiveTab] = useState("overview");
+  const tabsListRef = useRef<HTMLDivElement>(null);
+  const [indicator, setIndicator] = useState<{ left: number; width: number } | null>(null);
+
+  useEffect(() => { setActiveTab("overview"); }, [slug]);
+
+  useEffect(() => {
+    const update = () => {
+      const trigger = tabsListRef.current?.querySelector<HTMLElement>(`[data-value="${activeTab}"]`);
+      if (trigger) setIndicator({ left: trigger.offsetLeft, width: trigger.offsetWidth });
+    };
+    update();
+    const raf = requestAnimationFrame(update);
+    window.addEventListener("resize", update);
+    const list = tabsListRef.current;
+    const observer = typeof ResizeObserver !== "undefined" && list ? new ResizeObserver(update) : null;
+    if (list && observer) observer.observe(list);
+    return () => { cancelAnimationFrame(raf); window.removeEventListener("resize", update); observer?.disconnect(); };
+  }, [activeTab]);
+
   const { data: project = null } = useQuery({
     ...projectBySlugQuery(slug),
     initialData: loaderData.project,
@@ -135,21 +155,36 @@ function ProjectDetail() {
             {project.summary}
           </p>
           </div>
-          <div className="aspect-[4/3] overflow-hidden bg-secondary">
-            {project.hero_image_url ?? project.thumbnail_url ? (
-              <img src={project.hero_image_url ?? project.thumbnail_url ?? ""} alt={`${project.title} hero`} className="h-full w-full object-contain" fetchPriority="high" />
-            ) : <div className="h-full w-full bg-muted" aria-hidden="true" />}
-          </div>
+          {(() => {
+            const imageSrc = project.hero_image_url ?? project.thumbnail_url;
+            const media = imageSrc ? (
+              <img src={imageSrc} alt={`${project.title} hero`} className="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-105 motion-reduce:transition-none" fetchPriority="high" />
+            ) : <div className="h-full w-full bg-muted" aria-hidden="true" />;
+            return project.live_url ? (
+              <a href={project.live_url} target="_blank" rel="noopener noreferrer" aria-label={`Open live website for ${project.title}`} className="group block aspect-[4/3] overflow-hidden bg-secondary">
+                {media}
+              </a>
+            ) : (
+              <div className="group aspect-[4/3] overflow-hidden bg-secondary">{media}</div>
+            );
+          })()}
           </div>
         </header>
 
-        <Tabs key={project.id} defaultValue="overview" className="case-study-tabs portfolio-shell pb-8">
+        <Tabs key={project.id} value={activeTab} onValueChange={setActiveTab} className="case-study-tabs portfolio-shell pb-8">
           <div className="max-w-full overflow-x-auto border-b border-border" data-lenis-prevent>
-            <TabsList aria-label="Case study stages" className="h-auto min-w-full justify-start gap-1 rounded-none bg-transparent p-0">
+            <TabsList ref={tabsListRef} aria-label="Case study stages" className="relative h-auto min-w-full justify-start gap-1 rounded-none bg-transparent p-0">
               {([
                 ["overview", "Overview"], ["problem", "Problem"], ["goals", "Goals"],
                 ["research", "Research & Discovery"], ["process", "Design Process"], ["outcome", "Outcome & Impact"],
-              ] as const).map(([value, label]) => <TabsTrigger key={value} value={value} className="shrink-0 rounded-none border-b-2 border-transparent px-3 py-4 text-xs data-[state=active]:border-accent data-[state=active]:bg-transparent data-[state=active]:text-accent data-[state=active]:shadow-none sm:text-sm">{label}</TabsTrigger>)}
+              ] as const).map(([value, label]) => <TabsTrigger key={value} value={value} data-value={value} className="shrink-0 rounded-none px-3 py-4 text-xs data-[state=active]:bg-transparent data-[state=active]:text-accent data-[state=active]:shadow-none sm:text-sm">{label}</TabsTrigger>)}
+              {indicator && (
+                <span
+                  aria-hidden="true"
+                  className="pointer-events-none absolute bottom-0 h-0.5 bg-accent transition-[left,width] duration-300 ease-out motion-reduce:transition-none"
+                  style={{ left: `${indicator.left}px`, width: `${indicator.width}px` }}
+                />
+              )}
             </TabsList>
           </div>
           <TabsContent value="overview" className="mt-0 min-h-64">

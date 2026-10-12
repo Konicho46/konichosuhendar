@@ -12,7 +12,7 @@ import { moveItem, normalizedOrder } from "@/lib/reorder";
 import { supabase } from "@/integrations/supabase/client";
 
 type Draft = Omit<Project, "id" | "created_at" | "updated_at">;
-const emptyDraft: Draft = { slug: "", title: "", summary: "", description: "", category: "Product Design", tags: [], year: String(new Date().getFullYear()), client: "", role: "", timeline: "", platform: "", thumbnail_url: null, hero_image_url: null, gallery: [], problem: "", goals: "", research: "", design_process: "", final_design: "", outcome: "", notes: "", featured: false, published: false, sort_order: 0 };
+const emptyDraft: Draft = { slug: "", title: "", summary: "", description: "", category: "Product Design", tags: [], year: String(new Date().getFullYear()), client: "", role: "", timeline: "", platform: "", thumbnail_url: null, hero_image_url: null, live_url: null, gallery: [], problem: "", goals: "", research: "", design_process: "", final_design: "", outcome: "", notes: "", featured: false, published: false, sort_order: 0 };
 
 function Field({ label, hint, children }: { label: string; hint?: string; children: React.ReactNode }) {
   return <label className="block min-w-0"><span className="eyebrow">{label}</span>{hint && <span className="ml-2 text-xs text-muted-foreground">{hint}</span>}<div className="mt-2">{children}</div></label>;
@@ -72,6 +72,7 @@ export function ProjectForm({ project }: { project?: Project }) {
       <Field label="Year"><input type="number" inputMode="numeric" min="1900" max="2999" className={inputClass} value={draft.year} onChange={(event) => set("year", event.target.value.slice(0, 4))} /></Field>
       <Field label="Client / Company"><input className={inputClass} value={draft.client} onChange={(event) => set("client", event.target.value)} /></Field>
       <Field label="Role"><input className={inputClass} value={draft.role} onChange={(event) => set("role", event.target.value)} /></Field>
+      <Field label="Live website / prototype URL" hint="optional"><input className={inputClass} placeholder="https://…" value={draft.live_url ?? ""} onChange={(event) => set("live_url", event.target.value || null)} /></Field>
     </section>
     <ImagePicker label="Project image" value={draft.hero_image_url ?? draft.thumbnail_url} onChange={(url) => { set("hero_image_url", url); set("thumbnail_url", url); }} />
     <section className="space-y-5">
