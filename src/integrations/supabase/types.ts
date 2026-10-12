@@ -203,6 +203,7 @@ export type Database = {
           goals: string
           hero_image_url: string | null
           id: string
+          live_url: string | null
           notes: string
           outcome: string
           platform: string
@@ -232,6 +233,7 @@ export type Database = {
           goals?: string
           hero_image_url?: string | null
           id?: string
+          live_url?: string | null
           notes?: string
           outcome?: string
           platform?: string
@@ -261,6 +263,7 @@ export type Database = {
           goals?: string
           hero_image_url?: string | null
           id?: string
+          live_url?: string | null
           notes?: string
           outcome?: string
           platform?: string
