@@ -98,6 +98,26 @@ function ImageSlider({ images, title }: { images: string[]; title: string }) {
 function ProjectDetail() {
   const { slug } = Route.useParams();
   const loaderData = Route.useLoaderData();
+  const [activeTab, setActiveTab] = useState("overview");
+  const tabsListRef = useRef<HTMLDivElement>(null);
+  const [indicator, setIndicator] = useState<{ left: number; width: number } | null>(null);
+
+  useEffect(() => { setActiveTab("overview"); }, [slug]);
+
+  useEffect(() => {
+    const update = () => {
+      const trigger = tabsListRef.current?.querySelector<HTMLElement>(`[data-value="${activeTab}"]`);
+      if (trigger) setIndicator({ left: trigger.offsetLeft, width: trigger.offsetWidth });
+    };
+    update();
+    const raf = requestAnimationFrame(update);
+    window.addEventListener("resize", update);
+    const list = tabsListRef.current;
+    const observer = typeof ResizeObserver !== "undefined" && list ? new ResizeObserver(update) : null;
+    if (list && observer) observer.observe(list);
+    return () => { cancelAnimationFrame(raf); window.removeEventListener("resize", update); observer?.disconnect(); };
+  }, [activeTab]);
+
   const { data: project = null } = useQuery({
     ...projectBySlugQuery(slug),
     initialData: loaderData.project,
