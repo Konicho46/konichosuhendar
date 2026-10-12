@@ -109,9 +109,24 @@ export const projectCategoriesQuery = queryOptions({
 
 /** Uploads an image to the portfolio bucket and returns a long-lived signed URL. */
 export async function uploadImage(file: File) {
-  const ext = file.name.split(".").pop() ?? "jpg";
+  const { default: imageCompression } = await import("browser-image-compression");
+  let uploadFile = file;
+  let ext = file.name.split(".").pop() ?? "jpg";
+  try {
+    uploadFile = await imageCompression(file, {
+      maxSizeMB: 1,
+      maxWidthOrHeight: 1920,
+      fileType: "image/webp",
+      useWebWorker: true,
+      initialQuality: 0.85,
+    });
+    if (uploadFile.type === "image/webp") ext = "webp";
+  } catch {
+    // Fall back to the original file if compression fails (e.g. unsupported format).
+    uploadFile = file;
+  }
   const path = `${crypto.randomUUID()}.${ext}`;
-  const { error } = await supabase.storage.from("portfolio").upload(path, file, {
+  const { error } = await supabase.storage.from("portfolio").upload(path, uploadFile, {
     cacheControl: "31536000",
     upsert: false,
   });
