@@ -14,3 +14,5 @@
 - Keep public section content on the home route with hash navigation and redirect legacy section URLs to their anchors; preserve `/work/$slug` for case studies so published project links remain valid.
 - Keep the contact form and project catalogue in reusable public section modules; this preserves existing submission and filtering behavior while the home route owns page composition.
 - Render case-study stages with the shared accessible Tabs components and keep the image gallery within Design Process; this avoids stacking inactive content and preserves keyboard navigation without changing CMS data.
+- Store slider image arrays and short titles in existing project_sections images and heading fields, and render them with the shared Embla carousel; this preserves old content without duplicating storage.
+- Use TanStack Link view transitions for project-card navigation with CSS snapshot transforms; this animates both pages simultaneously without duplicating route trees or adding an animation runtime.

@@ -62,3 +62,10 @@
 - [x] Host the supplied CV and add an interactive View Resume button in the hero
 - [x] Verify the button link, hover lift, and mobile layout
 
+# Titled project slider and page transitions
+
+- [ ] Add image upload and short title per slide in the CMS, preserving existing images
+- [ ] Render a swipeable, keyboard-accessible titled carousel in Design Process
+- [ ] Animate home-to-project navigation with simultaneous horizontal page movement
+- [ ] Verify authenticated slide editing and public navigation
+
