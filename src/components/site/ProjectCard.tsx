@@ -15,6 +15,7 @@ export function ProjectCard({
     <Link
       to="/work/$slug"
       params={{ slug: project.slug }}
+      viewTransition
       className="group block overflow-hidden rounded-md border border-border transition-colors hover:border-accent focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
       aria-label={`${project.title} — view case study`}
     >

@@ -1,9 +1,9 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { queryOptions, useQuery } from "@tanstack/react-query";
 import { useEffect, useRef, useState } from "react";
-import { ArrowLeft, ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
+import { ArrowLeft, ArrowRight } from "lucide-react";
 import { PublicLayout } from "@/components/site/PublicLayout";
-import { Reveal } from "@/components/site/Reveal";
+import { ImageSlider } from "@/components/site/ImageSlider";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { publishedProjectsQuery, projectSectionsQuery, type Project } from "@/lib/portfolio";
@@ -75,26 +75,6 @@ function Block({ heading, body }: { heading: string; body: string }) {
   );
 }
 
-function ImageSlider({ images, title }: { images: string[]; title: string }) {
-  const [active, setActive] = useState(0);
-  const track = useRef<HTMLDivElement>(null);
-  if (!images.length) return null;
-  const go = (index: number) => {
-    const next = (index + images.length) % images.length;
-    setActive(next);
-    track.current?.children.item(next)?.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "start" });
-  };
-  return <Reveal className="border-t border-dashed border-border py-12">
-    <div className="mb-6 grid grid-cols-[minmax(0,1fr)_auto] items-center gap-4">
-      <div><h2 className="eyebrow">Case study images</h2><p className="mt-2 text-sm text-muted-foreground">{active + 1} / {images.length}</p></div>
-      {images.length > 1 && <div className="flex gap-2"><Button type="button" variant="outline" size="icon" aria-label="Previous image" onClick={() => go(active - 1)}><ChevronLeft /></Button><Button type="button" variant="outline" size="icon" aria-label="Next image" onClick={() => go(active + 1)}><ChevronRight /></Button></div>}
-    </div>
-    <div ref={track} tabIndex={0} aria-label="Case study image slider" onKeyDown={(event) => { if (event.key === "ArrowLeft") go(active - 1); if (event.key === "ArrowRight") go(active + 1); }} onScroll={(event) => { const element = event.currentTarget; if (element.clientWidth) setActive(Math.round(element.scrollLeft / element.clientWidth)); }} className="flex snap-x snap-mandatory overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-      {images.map((src, index) => <div key={`${src}-${index}`} className="aspect-[16/10] min-w-full snap-start bg-secondary"><img src={src} alt={`${title} case study ${index + 1}`} loading="lazy" className="h-full w-full object-contain" /></div>)}
-    </div>
-  </Reveal>;
-}
-
 function ProjectDetail() {
   const { slug } = Route.useParams();
   const loaderData = Route.useLoaderData();
@@ -138,7 +118,10 @@ function ProjectDetail() {
   const index = ordered.findIndex((p) => p.id === project.id);
   const prev = index > 0 ? ordered[index - 1] : undefined;
   const next = index >= 0 && index < ordered.length - 1 ? ordered[index + 1] : undefined;
-  const sliderImages = [...sections].sort((a, b) => a.sort_order - b.sort_order).flatMap((section) => section.images).filter(Boolean);
+  const slides = [...sections].sort((a, b) => a.sort_order - b.sort_order).flatMap((section) => section.images.filter(Boolean).map((image, index) => ({
+    id: `${section.id}-${index}`, image,
+    title: section.heading === "Case study image" ? "" : section.heading,
+  })));
 
   return (
     <PublicLayout>
@@ -213,7 +196,7 @@ function ProjectDetail() {
           <TabsContent value="problem" className="mt-0 min-h-64"><Block heading="Problem" body={project.problem} /></TabsContent>
           <TabsContent value="goals" className="mt-0 min-h-64"><Block heading="Goals" body={project.goals} /></TabsContent>
           <TabsContent value="research" className="mt-0 min-h-64"><Block heading="Research & Discovery" body={project.research} /></TabsContent>
-          <TabsContent value="process" className="mt-0 min-h-64"><Block heading="Design Process" body={project.design_process} /><ImageSlider images={sliderImages} title={project.title} /></TabsContent>
+          <TabsContent value="process" className="mt-0 min-h-64"><Block heading="Design Process" body={project.design_process} /><ImageSlider slides={slides} projectTitle={project.title} /></TabsContent>
           <TabsContent value="outcome" className="mt-0 min-h-64"><Block heading="Outcome & Impact" body={project.outcome} /></TabsContent>
         </Tabs>
 
