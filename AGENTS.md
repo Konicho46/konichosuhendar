@@ -16,3 +16,6 @@
 - Render case-study stages with the shared accessible Tabs components and keep the image gallery within Design Process; this avoids stacking inactive content and preserves keyboard navigation without changing CMS data.
 - Store slider image arrays and short titles in existing project_sections images and heading fields, and render them with the shared Embla carousel; this preserves old content without duplicating storage.
 - Use TanStack Link view transitions for project-card navigation with CSS snapshot transforms; this animates both pages simultaneously without duplicating route trees or adding an animation runtime.
+- Keep full site settings admin-only because public pages do not need direct access to that row.
+- Limit public contact submissions to validated name, email, and message fields to protect inbox integrity.
+- Keep raw portfolio storage reads admin-only because public pages use signed image URLs.

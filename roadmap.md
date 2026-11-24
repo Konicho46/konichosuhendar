@@ -69,3 +69,9 @@
 - [ ] Animate home-to-project navigation with simultaneous horizontal page movement
 - [ ] Verify authenticated slide editing and public navigation
 
+# Selected security fixes
+
+- [x] Restrict anonymous access to full site settings while preserving administrator access
+- [x] Validate public contact submissions and limit writable fields
+- [x] Restrict raw portfolio image reads to administrators and verify public signed images
+

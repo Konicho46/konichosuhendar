@@ -8,6 +8,13 @@
       "when": 1791777742851,
       "tag": "0000_add_live_url_to_projects",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1795506338474,
+      "tag": "0001_tighten_selected_security_policies",
+      "breakpoints": true
     }
   ]
 }
