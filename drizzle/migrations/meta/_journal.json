@@ -15,6 +15,13 @@
       "when": 1795506338474,
       "tag": "0001_tighten_selected_security_policies",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1795506679467,
+      "tag": "0002_create_photography_gallery",
+      "breakpoints": true
     }
   ]
 }

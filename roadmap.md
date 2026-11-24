@@ -75,3 +75,9 @@
 - [x] Validate public contact submissions and limit writable fields
 - [x] Restrict raw portfolio image reads to administrators and verify public signed images
 
+# Photography gallery
+- [ ] Add a dedicated photography gallery page with category filters and a return link to the portfolio
+- [ ] Add a home-page button leading to the photography gallery
+- [ ] Add administrator photo uploads, category/title editing, ordering, and deletion
+- [ ] Verify category filtering, upload management, access rules, and mobile layout
+

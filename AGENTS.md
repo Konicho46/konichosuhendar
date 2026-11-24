@@ -19,3 +19,5 @@
 - Keep full site settings admin-only because public pages do not need direct access to that row.
 - Limit public contact submissions to validated name, email, and message fields to protect inbox integrity.
 - Keep raw portfolio storage reads admin-only because public pages use signed image URLs.
+- Keep photography entries in a dedicated `gallery_photos` table with the five approved categories; expose entries publicly while restricting gallery management to administrators, so photography stays independent from project case studies.
+- Keep `/gallery` as a distinct public photo-first page with a direct return path to `/`, so it can have its own browsing layout without changing the main portfolio navigation.

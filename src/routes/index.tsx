@@ -1,5 +1,5 @@
-import { createFileRoute } from "@tanstack/react-router";
-import { ArrowUpRight, FileText } from "lucide-react";
+import { createFileRoute, Link } from "@tanstack/react-router";
+import { ArrowUpRight, FileText, Images } from "lucide-react";
 import { PublicLayout } from "@/components/site/PublicLayout";
 import { ProjectsSection } from "@/components/site/ProjectsSection";
 import { ContactSection } from "@/components/site/ContactSection";
@@ -51,13 +51,22 @@ function Home() {
         <p className="mono-label text-accent">Product designer</p>
         <h1 className="display mt-6 max-w-4xl text-5xl leading-tight sm:text-7xl lg:text-8xl">{profile?.name ?? "Nathanael Suhendar"}<span className="text-accent">.</span></h1>
         <p className="mt-6 max-w-2xl text-base leading-relaxed text-muted-foreground sm:text-lg">{profile?.intro}</p>
-        <Button asChild size="lg" className="resume-cta group mt-9 h-auto rounded-full px-7 py-3.5 mono-label">
-          <a href={RESUME_URL} target="_blank" rel="noreferrer noopener" aria-label="Open resume in a new tab">
-            <FileText className="h-4 w-4" />
-            View Resume
-            <ArrowUpRight className="h-4 w-4 transition-transform duration-300 ease-out group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-          </a>
-        </Button>
+        <div className="mt-9 flex flex-wrap gap-3">
+          <Button asChild size="lg" className="resume-cta group h-auto rounded-full px-7 py-3.5 mono-label">
+            <a href={RESUME_URL} target="_blank" rel="noreferrer noopener" aria-label="Open resume in a new tab">
+              <FileText className="h-4 w-4" />
+              View Resume
+              <ArrowUpRight className="h-4 w-4 transition-transform duration-300 ease-out group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+            </a>
+          </Button>
+          <Button asChild size="lg" variant="outline" className="group h-auto rounded-full px-7 py-3.5 mono-label">
+            <Link to="/gallery" aria-label="Open photography gallery">
+              <Images className="h-4 w-4" />
+              Photography Gallery
+              <ArrowUpRight className="h-4 w-4 transition-transform duration-300 ease-out group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+            </Link>
+          </Button>
+        </div>
 
         <div className="mt-12 grid gap-8 border-t border-border pt-8 md:grid-cols-[1fr_2fr]">
           <div>
