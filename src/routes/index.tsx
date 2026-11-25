@@ -60,7 +60,7 @@ function Home() {
             </a>
           </Button>
           <Button asChild size="lg" variant="outline" className="group h-auto rounded-full px-7 py-3.5 mono-label">
-            <Link to="/gallery" aria-label="Open photography gallery">
+            <Link to="/gallery" search={{ category: "All" }} aria-label="Open photography gallery">
               <Images className="h-4 w-4" />
               Photography Gallery
               <ArrowUpRight className="h-4 w-4 transition-transform duration-300 ease-out group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
