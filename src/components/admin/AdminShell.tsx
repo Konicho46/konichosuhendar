@@ -7,7 +7,6 @@ import { Button } from "@/components/ui/button";
 const links = [
   { to: "/admin/dashboard", label: "Dashboard" },
   { to: "/admin/projects", label: "Projects" },
-  { to: "/admin/gallery", label: "Gallery" },
   { to: "/admin/categories", label: "Categories" },
   { to: "/admin/experience", label: "Experience" },
   { to: "/admin/skills", label: "Skills & Tools" },

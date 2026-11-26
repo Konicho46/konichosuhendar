@@ -1,7 +1,6 @@
 import { queryOptions } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import type { Tables } from "@/integrations/supabase/types";
-import { GALLERY_CATEGORIES } from "./gallery-categories";
 
 export type Project = Tables<"projects">;
 export type ProjectSection = Tables<"project_sections">;
@@ -11,9 +10,6 @@ export type Profile = Tables<"profile">;
 export type SocialLink = Tables<"social_links">;
 export type SiteSettings = Tables<"site_settings">;
 export type ProjectCategory = Tables<"project_categories">;
-export type GalleryPhoto = Tables<"gallery_photos">;
-export { GALLERY_CATEGORIES };
-export type { GalleryCategory, GalleryFilter } from "./gallery-categories";
 
 export const CATEGORIES = [
   "Product Design",
@@ -111,14 +107,6 @@ export const projectCategoriesQuery = queryOptions({
     ),
 });
 
-export const galleryPhotosQuery = queryOptions({
-  queryKey: ["gallery-photos"],
-  queryFn: () =>
-    unwrap<GalleryPhoto[]>(
-      supabase.from("gallery_photos").select("*").order("sort_order", { ascending: true }),
-    ),
-});
-
 /** Compresses and uploads an image, returning its storage path and long-lived signed URL. */
 async function uploadImageAsset(file: File) {
   const { default: imageCompression } = await import("browser-image-compression");
@@ -154,11 +142,6 @@ async function uploadImageAsset(file: File) {
 export async function uploadImage(file: File) {
   const uploaded = await uploadImageAsset(file);
   return uploaded.url;
-}
-
-/** Gallery uploads also retain the path so administrators can remove the stored image. */
-export async function uploadGalleryImage(file: File) {
-  return uploadImageAsset(file);
 }
 
 export function slugify(value: string) {

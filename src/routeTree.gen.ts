@@ -13,13 +13,11 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as AdminRouteRouteImport } from './routes/admin/route'
 import { Route as ContactRouteImport } from './routes/contact'
-import { Route as GalleryRouteImport } from './routes/gallery'
 import { Route as AdminIndexRouteImport } from './routes/admin/index'
 import { Route as AdminAboutRouteImport } from './routes/admin/about'
 import { Route as AdminCategoriesRouteImport } from './routes/admin/categories'
 import { Route as AdminDashboardRouteImport } from './routes/admin/dashboard'
 import { Route as AdminExperienceRouteImport } from './routes/admin/experience'
-import { Route as AdminGalleryRouteImport } from './routes/admin/gallery'
 import { Route as AdminLoginRouteImport } from './routes/admin/login'
 import { Route as AdminSettingsRouteImport } from './routes/admin/settings'
 import { Route as AdminSkillsRouteImport } from './routes/admin/skills'
@@ -49,11 +47,6 @@ const ContactRoute = ContactRouteImport.update({
   path: '/contact',
   getParentRoute: () => rootRouteImport,
 } as any)
-const GalleryRoute = GalleryRouteImport.update({
-  id: '/gallery',
-  path: '/gallery',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const AdminIndexRoute = AdminIndexRouteImport.update({
   id: '/',
   path: '/',
@@ -77,11 +70,6 @@ const AdminDashboardRoute = AdminDashboardRouteImport.update({
 const AdminExperienceRoute = AdminExperienceRouteImport.update({
   id: '/experience',
   path: '/experience',
-  getParentRoute: () => AdminRouteRoute,
-} as any)
-const AdminGalleryRoute = AdminGalleryRouteImport.update({
-  id: '/gallery',
-  path: '/gallery',
   getParentRoute: () => AdminRouteRoute,
 } as any)
 const AdminLoginRoute = AdminLoginRouteImport.update({
@@ -130,12 +118,10 @@ export interface FileRoutesByFullPath {
   '/admin': typeof AdminRouteRouteWithChildren
   '/about': typeof AboutRoute
   '/contact': typeof ContactRoute
-  '/gallery': typeof GalleryRoute
   '/admin/about': typeof AdminAboutRoute
   '/admin/categories': typeof AdminCategoriesRoute
   '/admin/dashboard': typeof AdminDashboardRoute
   '/admin/experience': typeof AdminExperienceRoute
-  '/admin/gallery': typeof AdminGalleryRoute
   '/admin/login': typeof AdminLoginRoute
   '/admin/settings': typeof AdminSettingsRoute
   '/admin/skills': typeof AdminSkillsRoute
@@ -150,12 +136,10 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/contact': typeof ContactRoute
-  '/gallery': typeof GalleryRoute
   '/admin/about': typeof AdminAboutRoute
   '/admin/categories': typeof AdminCategoriesRoute
   '/admin/dashboard': typeof AdminDashboardRoute
   '/admin/experience': typeof AdminExperienceRoute
-  '/admin/gallery': typeof AdminGalleryRoute
   '/admin/login': typeof AdminLoginRoute
   '/admin/settings': typeof AdminSettingsRoute
   '/admin/skills': typeof AdminSkillsRoute
@@ -172,12 +156,10 @@ export interface FileRoutesById {
   '/admin': typeof AdminRouteRouteWithChildren
   '/about': typeof AboutRoute
   '/contact': typeof ContactRoute
-  '/gallery': typeof GalleryRoute
   '/admin/about': typeof AdminAboutRoute
   '/admin/categories': typeof AdminCategoriesRoute
   '/admin/dashboard': typeof AdminDashboardRoute
   '/admin/experience': typeof AdminExperienceRoute
-  '/admin/gallery': typeof AdminGalleryRoute
   '/admin/login': typeof AdminLoginRoute
   '/admin/settings': typeof AdminSettingsRoute
   '/admin/skills': typeof AdminSkillsRoute
@@ -195,12 +177,10 @@ export interface FileRouteTypes {
     | '/admin'
     | '/about'
     | '/contact'
-    | '/gallery'
     | '/admin/about'
     | '/admin/categories'
     | '/admin/dashboard'
     | '/admin/experience'
-    | '/admin/gallery'
     | '/admin/login'
     | '/admin/settings'
     | '/admin/skills'
@@ -215,12 +195,10 @@ export interface FileRouteTypes {
     | '/'
     | '/about'
     | '/contact'
-    | '/gallery'
     | '/admin/about'
     | '/admin/categories'
     | '/admin/dashboard'
     | '/admin/experience'
-    | '/admin/gallery'
     | '/admin/login'
     | '/admin/settings'
     | '/admin/skills'
@@ -236,12 +214,10 @@ export interface FileRouteTypes {
     | '/admin'
     | '/about'
     | '/contact'
-    | '/gallery'
     | '/admin/about'
     | '/admin/categories'
     | '/admin/dashboard'
     | '/admin/experience'
-    | '/admin/gallery'
     | '/admin/login'
     | '/admin/settings'
     | '/admin/skills'
@@ -258,7 +234,6 @@ export interface RootRouteChildren {
   AdminRouteRoute: typeof AdminRouteRouteWithChildren
   AboutRoute: typeof AboutRoute
   ContactRoute: typeof ContactRoute
-  GalleryRoute: typeof GalleryRoute
   WorkSlugRoute: typeof WorkSlugRoute
   WorkIndexRoute: typeof WorkIndexRoute
 }
@@ -291,13 +266,6 @@ declare module '@tanstack/react-router' {
       path: '/contact'
       fullPath: '/contact'
       preLoaderRoute: typeof ContactRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/gallery': {
-      id: '/gallery'
-      path: '/gallery'
-      fullPath: '/gallery'
-      preLoaderRoute: typeof GalleryRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/admin/': {
@@ -333,13 +301,6 @@ declare module '@tanstack/react-router' {
       path: '/experience'
       fullPath: '/admin/experience'
       preLoaderRoute: typeof AdminExperienceRouteImport
-      parentRoute: typeof AdminRouteRoute
-    }
-    '/admin/gallery': {
-      id: '/admin/gallery'
-      path: '/gallery'
-      fullPath: '/admin/gallery'
-      preLoaderRoute: typeof AdminGalleryRouteImport
       parentRoute: typeof AdminRouteRoute
     }
     '/admin/login': {
@@ -406,7 +367,6 @@ interface AdminRouteRouteChildren {
   AdminCategoriesRoute: typeof AdminCategoriesRoute
   AdminDashboardRoute: typeof AdminDashboardRoute
   AdminExperienceRoute: typeof AdminExperienceRoute
-  AdminGalleryRoute: typeof AdminGalleryRoute
   AdminLoginRoute: typeof AdminLoginRoute
   AdminSettingsRoute: typeof AdminSettingsRoute
   AdminSkillsRoute: typeof AdminSkillsRoute
@@ -421,7 +381,6 @@ const AdminRouteRouteChildren: AdminRouteRouteChildren = {
   AdminCategoriesRoute: AdminCategoriesRoute,
   AdminDashboardRoute: AdminDashboardRoute,
   AdminExperienceRoute: AdminExperienceRoute,
-  AdminGalleryRoute: AdminGalleryRoute,
   AdminLoginRoute: AdminLoginRoute,
   AdminSettingsRoute: AdminSettingsRoute,
   AdminSkillsRoute: AdminSkillsRoute,
@@ -440,7 +399,6 @@ const rootRouteChildren: RootRouteChildren = {
   AdminRouteRoute: AdminRouteRouteWithChildren,
   AboutRoute: AboutRoute,
   ContactRoute: ContactRoute,
-  GalleryRoute: GalleryRoute,
   WorkSlugRoute: WorkSlugRoute,
   WorkIndexRoute: WorkIndexRoute,
 }

@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { ArrowUpRight, FileText, Images } from "lucide-react";
+import { ArrowUpRight, FileText } from "lucide-react";
 import { PublicLayout } from "@/components/site/PublicLayout";
 import { ProjectsSection } from "@/components/site/ProjectsSection";
 import { ContactSection } from "@/components/site/ContactSection";
@@ -58,13 +58,6 @@ function Home() {
               View Resume
               <ArrowUpRight className="h-4 w-4 transition-transform duration-300 ease-out group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
             </a>
-          </Button>
-          <Button asChild size="lg" variant="outline" className="group h-auto rounded-full px-7 py-3.5 mono-label">
-            <Link to="/gallery" search={{ category: "All" }} aria-label="Open photography gallery">
-              <Images className="h-4 w-4" />
-              Photography Gallery
-              <ArrowUpRight className="h-4 w-4 transition-transform duration-300 ease-out group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-            </Link>
           </Button>
         </div>
 

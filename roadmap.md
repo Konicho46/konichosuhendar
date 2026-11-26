@@ -76,8 +76,8 @@
 - [x] Restrict raw portfolio image reads to administrators and verify public signed images
 
 # Photography gallery
-- [ ] Add a dedicated photography gallery page with category filters and a return link to the portfolio
-- [ ] Add a home-page button leading to the photography gallery
-- [ ] Add administrator photo uploads, category/title editing, ordering, and deletion
-- [ ] Verify category filtering, upload management, access rules, and mobile layout
+- [x] Remove the public photography gallery page and home-page entry point
+- [x] Remove photography gallery management from the admin menu
+- [ ] Delete previously uploaded gallery records and their corresponding stored image files
+- [ ] Verify gallery access and uploads are no longer available
 
